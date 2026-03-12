@@ -68,6 +68,13 @@ export type ProductDetailRecord = {
   variants: ProductDetailVariant[]
 }
 
+export type ProductCartMeta = {
+  defaultVariantId: string
+  image: string
+  imageAlt: string
+  subtitle: string
+}
+
 export const productDetailBreadcrumb = {
   homeLabel: "Home",
   homeTo: "/",
@@ -345,6 +352,12 @@ const relatedCardDescriptionByProductId = new Map<string, string>([
   ],
 ])
 
+const cartSubtitleByProductId = new Map<string, string>([
+  ["sunflower-microgreens", "50g Pack \u00b7 Fresh Harvest"],
+  ["pea-shoots", "100g Pack \u00b7 Premium"],
+  ["radish-microgreens", "75g Pack \u00b7 Spicy Blend"],
+])
+
 const productDetailsById = new Map(
   shopProducts.map((product) => [product.id, createDefaultDetail(product)] as const)
 )
@@ -424,6 +437,63 @@ function getProductDetailById(productId: string) {
   return productDetailsById.get(productId)
 }
 
+function getProductVariantById(productId: string, variantId: string) {
+  return getProductDetailById(productId)?.variants.find(
+    (variant) => variant.id === variantId
+  )
+}
+
+function getDefaultProductVariant(productId: string) {
+  return getProductDetailById(productId)?.variants[0]
+}
+
+function inferCartPackLabel(product: ShopProduct) {
+  switch (product.category) {
+    case "sprouts":
+      return "100g Pack"
+    case "microgreens":
+      return "75g Pack"
+    case "leafy-greens":
+    default:
+      return "50g Pack"
+  }
+}
+
+function inferCartFinishLabel(product: ShopProduct) {
+  if (product.tags.includes("spicy")) {
+    return "Spicy Blend"
+  }
+
+  if (product.tags.includes("superfood")) {
+    return "Premium"
+  }
+
+  if (product.isNew) {
+    return "Seasonal Cut"
+  }
+
+  return "Fresh Harvest"
+}
+
+function getProductCartMeta(productId: string): ProductCartMeta | undefined {
+  const product = getShopProductById(productId)
+  const detail = getProductDetailById(productId)
+  const defaultVariant = detail?.variants[0]
+
+  if (!product || !defaultVariant) {
+    return undefined
+  }
+
+  return {
+    defaultVariantId: defaultVariant.id,
+    image: detail.gallery[0]?.src ?? product.image,
+    imageAlt: detail.gallery[0]?.alt ?? product.imageAlt,
+    subtitle:
+      cartSubtitleByProductId.get(productId) ??
+      `${inferCartPackLabel(product)} \u00b7 ${inferCartFinishLabel(product)}`,
+  }
+}
+
 function getProductDetailCardImage(productId: string, fallbackImage: string) {
   return relatedCardImageByProductId.get(productId) ?? fallbackImage
 }
@@ -445,9 +515,12 @@ function getRelatedProducts(productId: string) {
 }
 
 export {
+  getDefaultProductVariant,
   getProductDetailById,
   getProductDetailCardDescription,
   getProductDetailCardImage,
+  getProductCartMeta,
+  getProductVariantById,
   getRelatedProducts,
   productDetailsById,
 }

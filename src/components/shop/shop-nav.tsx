@@ -3,6 +3,7 @@ import HeartIcon from "lucide-react/dist/esm/icons/heart"
 import SearchIcon from "lucide-react/dist/esm/icons/search"
 import ShoppingCartIcon from "lucide-react/dist/esm/icons/shopping-cart"
 
+import { useCart } from "@/components/cart/cart-provider"
 import { BrandButton } from "@/components/brand/brand-button"
 import {
   BrandNavigationMenu,
@@ -19,6 +20,7 @@ type ShopNavProps = {
 
 function ShopNav({ onPlaceholderAction }: ShopNavProps) {
   const BrandIcon = shopBrand.icon
+  const { itemCount } = useCart()
 
   return (
     <header className="border-b border-border bg-card">
@@ -75,13 +77,21 @@ function ShopNav({ onPlaceholderAction }: ShopNavProps) {
             <HeartIcon aria-hidden />
           </BrandButton>
           <BrandButton
-            aria-label="Cart"
+            aria-label={itemCount > 0 ? `Cart (${itemCount})` : "Cart"}
+            className="relative"
+            nativeButton={false}
+            render={<Link to="/cart" />}
             size="icon-sm"
-            type="button"
             variant="ghost"
-            onClick={() => onPlaceholderAction(shopPlaceholderMessages.cart)}
           >
-            <ShoppingCartIcon aria-hidden />
+            <span className="relative">
+              <ShoppingCartIcon aria-hidden />
+              {itemCount > 0 ? (
+                <span className="absolute -top-1.5 -right-1.5 grid min-h-4 min-w-4 place-items-center rounded-full bg-destructive px-1 text-[9px] font-semibold text-white">
+                  {itemCount > 99 ? "99+" : itemCount}
+                </span>
+              ) : null}
+            </span>
           </BrandButton>
           <BrandButton
             className="rounded-full px-4"

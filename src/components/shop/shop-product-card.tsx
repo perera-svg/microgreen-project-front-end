@@ -8,7 +8,7 @@ import { BrandSeparator } from "@/components/brand/brand-separator"
 import { shopProductCardCtaLabel, type ShopProduct } from "./content"
 
 type ShopProductCardProps = {
-  onAddToCart: (productName: string) => void
+  onAddToCart: (product: ShopProduct) => void
   product: ShopProduct
 }
 
@@ -62,7 +62,7 @@ function ShopProductCard({ onAddToCart, product }: ShopProductCardProps) {
               size="sm"
               type="button"
               variant="destructive"
-              onClick={() => onAddToCart(product.name)}
+              onClick={() => onAddToCart(product)}
             >
               {shopProductCardCtaLabel}
             </BrandButton>

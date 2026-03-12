@@ -14,7 +14,7 @@ import { shopEmptyState, type ShopProduct } from "./content"
 import { ShopProductCard } from "./shop-product-card"
 
 type ShopProductGridProps = {
-  onAddToCart: (productName: string) => void
+  onAddToCart: (product: ShopProduct) => void
   onClearFilters: () => void
   products: ShopProduct[]
 }

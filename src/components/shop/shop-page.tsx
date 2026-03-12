@@ -1,15 +1,18 @@
 import { toast } from "sonner"
 
-import { shopPlaceholderMessages } from "./content"
+import { useCart } from "@/components/cart/cart-provider"
+import { getDefaultProductVariant } from "@/components/product-detail/content"
 import { ShopBreadcrumb } from "./shop-breadcrumb"
 import { ShopCatalogSection } from "./shop-catalog-section"
 import { ShopFooter } from "./shop-footer"
 import { ShopHeader } from "./shop-header"
 import { ShopNav } from "./shop-nav"
 import { useShopCatalog } from "./use-shop-catalog"
+import type { ShopProduct } from "./content"
 
 function ShopPage() {
   const catalog = useShopCatalog()
+  const { addItem } = useCart()
 
   function handlePlaceholderAction(message: string) {
     toast(message, {
@@ -17,9 +20,21 @@ function ShopPage() {
     })
   }
 
-  function handleAddToCart(productName: string) {
-    toast(shopPlaceholderMessages.cart, {
-      description: `${productName} will be available once checkout is connected.`,
+  function handleAddToCart(product: ShopProduct) {
+    const defaultVariant = getDefaultProductVariant(product.id)
+
+    if (!defaultVariant) {
+      return
+    }
+
+    addItem({
+      productId: product.id,
+      quantity: 1,
+      variantId: defaultVariant.id,
+    })
+
+    toast("Added to cart", {
+      description: `${product.name} (${defaultVariant.label}) was added to your cart.`,
     })
   }
 

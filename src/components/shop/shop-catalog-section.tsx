@@ -1,3 +1,4 @@
+import type { ShopProduct } from "./content"
 import { ShopFilterSidebar } from "./shop-filter-sidebar"
 import { ShopPagination } from "./shop-pagination"
 import { ShopProductGrid } from "./shop-product-grid"
@@ -6,7 +7,7 @@ import type { ShopCatalogController } from "./use-shop-catalog"
 
 type ShopCatalogSectionProps = {
   catalog: ShopCatalogController
-  onAddToCart: (productName: string) => void
+  onAddToCart: (product: ShopProduct) => void
 }
 
 function ShopCatalogSection({

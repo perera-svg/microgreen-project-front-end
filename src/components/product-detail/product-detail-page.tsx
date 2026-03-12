@@ -2,6 +2,7 @@ import { useState } from "react"
 
 import { toast } from "sonner"
 
+import { useCart } from "@/components/cart/cart-provider"
 import {
   getShopProductById,
   shopPlaceholderMessages,
@@ -28,6 +29,7 @@ type ProductDetailPageProps = {
 function ProductDetailPage({ productId }: ProductDetailPageProps) {
   const product = getShopProductById(productId)
   const detail = getProductDetailById(productId)
+  const { addItem } = useCart()
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [selectedVariantId, setSelectedVariantId] = useState(
@@ -61,8 +63,21 @@ function ProductDetailPage({ productId }: ProductDetailPageProps) {
   const relatedProducts = getRelatedProducts(currentProduct.id)
 
   function handleAddToCart() {
-    toast(shopPlaceholderMessages.cart, {
-      description: `${quantity} x ${currentProduct.name} (${selectedVariant.label}) will be available once checkout is connected.`,
+    if (!currentProduct.inStock) {
+      toast("Currently unavailable", {
+        description: `${currentProduct.name} is marked as out of stock right now.`,
+      })
+      return
+    }
+
+    addItem({
+      productId: currentProduct.id,
+      quantity,
+      variantId: selectedVariant.id,
+    })
+
+    toast("Added to cart", {
+      description: `${quantity} x ${currentProduct.name} (${selectedVariant.label}) was added to your cart.`,
     })
   }
 
