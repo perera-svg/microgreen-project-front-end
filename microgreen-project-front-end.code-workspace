@@ -1,0 +1,182 @@
+{
+	"folders": [
+		{
+			"path": ".",
+			"name": "front end of the application"
+		},
+		{
+			"path": "../../../../uidesigns/microgres project",
+			"name": "ui designs of the application"
+		},
+		{
+			"path": "../../nestjs-deployement-test",
+			"name": "backend of the application"
+		}
+	],
+	"settings": {
+		"npm.packageManager": "pnpm",
+		"editor.formatOnSave": true,
+		"editor.codeActionsOnSave": {
+			"source.fixAll.eslint": "explicit",
+			"source.organizeImports": "explicit"
+		},
+		"eslint.validate": [
+			"javascript",
+			"javascriptreact",
+			"typescript",
+			"typescriptreact"
+		],
+		"eslint.workingDirectories": [
+			{
+				"mode": "auto"
+			}
+		],
+		"typescript.preferences.importModuleSpecifier": "relative",
+		"typescript.updateImportsOnFileMove.enabled": "always",
+		"files.exclude": {
+			"**/coverage": true,
+			"**/dist": true,
+			"**/test-results": true
+		},
+		"search.exclude": {
+			"**/coverage": true,
+			"**/dist": true,
+			"**/test-results": true
+		},
+		"files.watcherExclude": {
+			"**/coverage/**": true,
+			"**/dist/**": true,
+			"**/test-results/**": true
+		},
+		"explorer.fileNesting.enabled": true,
+		"explorer.fileNesting.patterns": {
+			"package.json": "pnpm-lock.yaml, tsconfig*.json, eslint.config.*, vite.config.*, nest-cli.json, prisma.config.ts"
+		}
+	},
+	"extensions": {
+		"recommendations": [
+			"dbaeumer.vscode-eslint",
+			"esbenp.prettier-vscode",
+			"prisma.prisma",
+			"ms-playwright.playwright"
+		]
+	},
+	"tasks": {
+		"version": "2.0.0",
+		"tasks": [
+			{
+				"label": "frontend: dev",
+				"type": "shell",
+				"command": "pnpm",
+				"args": [
+					"run",
+					"dev"
+				],
+				"options": {
+					"cwd": "${workspaceFolder:front end of the application}"
+				},
+				"isBackground": true,
+				"problemMatcher": []
+			},
+			{
+				"label": "backend: dev",
+				"type": "shell",
+				"command": "pnpm",
+				"args": [
+					"run",
+					"start:dev"
+				],
+				"options": {
+					"cwd": "${workspaceFolder:backend of the application}"
+				},
+				"isBackground": true,
+				"problemMatcher": []
+			},
+			{
+				"label": "frontend: lint",
+				"type": "shell",
+				"command": "pnpm",
+				"args": [
+					"run",
+					"lint"
+				],
+				"options": {
+					"cwd": "${workspaceFolder:front end of the application}"
+				},
+				"problemMatcher": [
+					"$eslint-stylish"
+				],
+				"group": "test"
+			},
+			{
+				"label": "backend: lint",
+				"type": "shell",
+				"command": "pnpm",
+				"args": [
+					"run",
+					"lint"
+				],
+				"options": {
+					"cwd": "${workspaceFolder:backend of the application}"
+				},
+				"problemMatcher": [
+					"$eslint-stylish"
+				],
+				"group": "test"
+			},
+			{
+				"label": "backend: build",
+				"type": "shell",
+				"command": "pnpm",
+				"args": [
+					"run",
+					"build"
+				],
+				"options": {
+					"cwd": "${workspaceFolder:backend of the application}"
+				},
+				"problemMatcher": [
+					"$tsc"
+				],
+				"group": "build"
+			},
+			{
+				"label": "full stack: dev",
+				"dependsOrder": "parallel",
+				"dependsOn": [
+					"frontend: dev",
+					"backend: dev"
+				],
+				"problemMatcher": []
+			}
+		]
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Launch frontend dev server",
+				"type": "node-terminal",
+				"request": "launch",
+				"command": "pnpm run dev",
+				"cwd": "${workspaceFolder:front end of the application}"
+			},
+			{
+				"name": "Launch backend dev server",
+				"type": "node-terminal",
+				"request": "launch",
+				"command": "pnpm run start:dev",
+				"cwd": "${workspaceFolder:backend of the application}"
+			}
+		],
+		"compounds": [
+			{
+				"name": "Launch full stack",
+				"configurations": [
+					"Launch frontend dev server",
+					"Launch backend dev server"
+				]
+			}
+		]
+	}
+}
