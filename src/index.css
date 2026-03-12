@@ -176,6 +176,311 @@
   }
 }
 
+@layer components {
+  [data-slot="button"] {
+    border-radius: 10px;
+    font-weight: 600;
+    box-shadow: none;
+  }
+
+  [data-slot="input"],
+  [data-slot="textarea"],
+  [data-slot="select-trigger"],
+  [data-slot="native-select"],
+  [data-slot="input-group"],
+  [data-slot="command-input"],
+  [data-slot="sidebar-input"] {
+    border-color: var(--border);
+    background: var(--input);
+    color: var(--foreground);
+    box-shadow: none;
+  }
+
+  [data-slot="input"],
+  [data-slot="select-trigger"],
+  [data-slot="native-select"],
+  [data-slot="input-group"],
+  [data-slot="command-input"],
+  [data-slot="sidebar-input"] {
+    min-height: 2.75rem;
+    border-radius: 10px;
+    font-size: 0.8125rem;
+  }
+
+  [data-slot="textarea"] {
+    min-height: 7rem;
+    border-radius: 16px;
+    font-size: 0.8125rem;
+  }
+
+  [data-slot="input"]::placeholder,
+  [data-slot="textarea"]::placeholder,
+  [data-slot="command-input"]::placeholder,
+  [data-slot="sidebar-input"]::placeholder {
+    color: var(--text-tertiary);
+  }
+
+  [data-slot="input"]:focus-visible,
+  [data-slot="textarea"]:focus-visible,
+  [data-slot="select-trigger"]:focus-visible,
+  [data-slot="native-select"]:focus-visible,
+  [data-slot="command-input"]:focus-visible,
+  [data-slot="sidebar-input"]:focus-visible,
+  [data-slot="input-group"]:focus-within {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgb(124 144 112 / 0.15);
+  }
+
+  [data-slot="checkbox"],
+  [data-slot="radio-group-item"] {
+    border-color: var(--border);
+    background: var(--card);
+  }
+
+  [data-slot="checkbox"][data-checked],
+  [data-slot="radio-group-item"][data-checked] {
+    border-color: var(--primary);
+    background: var(--primary);
+  }
+
+  [data-slot="switch"] {
+    background: rgb(201 184 168 / 0.35);
+  }
+
+  [data-slot="switch"][data-checked] {
+    background: var(--primary);
+  }
+
+  [data-slot="switch-thumb"] {
+    background: var(--card);
+  }
+
+  [data-slot="card"],
+  [data-slot="popover-content"],
+  [data-slot="dropdown-menu-content"],
+  [data-slot="dropdown-menu-sub-content"],
+  [data-slot="context-menu-content"],
+  [data-slot="context-menu-sub-content"],
+  [data-slot="menubar-content"],
+  [data-slot="menubar-sub-content"],
+  [data-slot="select-content"],
+  [data-slot="hover-card-content"],
+  [data-slot="dialog-content"],
+  [data-slot="alert-dialog-content"],
+  [data-slot="sheet-content"],
+  [data-slot="command"],
+  [data-slot="empty"],
+  [data-slot="table-container"] {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--card);
+    box-shadow: 0 4px 30px rgb(0 0 0 / 0.04);
+  }
+
+  [data-slot="dialog-overlay"],
+  [data-slot="alert-dialog-overlay"],
+  [data-slot="sheet-overlay"],
+  [data-slot="drawer-overlay"] {
+    background: rgb(45 45 45 / 0.55);
+  }
+
+  [data-slot="card-title"],
+  [data-slot="popover-title"],
+  [data-slot="dialog-title"],
+  [data-slot="alert-dialog-title"],
+  [data-slot="sheet-title"],
+  [data-slot="drawer-title"],
+  [data-slot="empty-title"],
+  [data-slot="alert-title"] {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    color: var(--foreground);
+  }
+
+  [data-slot="card-description"],
+  [data-slot="popover-description"],
+  [data-slot="dialog-description"],
+  [data-slot="alert-dialog-description"],
+  [data-slot="sheet-description"],
+  [data-slot="drawer-description"],
+  [data-slot="empty-description"],
+  [data-slot="alert-description"],
+  [data-slot="field-description"] {
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  [data-slot="badge"] {
+    border-radius: 9999px;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    box-shadow: none;
+  }
+
+  [data-slot="navigation-menu-trigger"],
+  [data-slot="navigation-menu-link"],
+  [data-slot="select-item"],
+  [data-slot="dropdown-menu-item"],
+  [data-slot="dropdown-menu-sub-trigger"],
+  [data-slot="dropdown-menu-checkbox-item"],
+  [data-slot="dropdown-menu-radio-item"],
+  [data-slot="context-menu-item"],
+  [data-slot="context-menu-sub-trigger"],
+  [data-slot="context-menu-checkbox-item"],
+  [data-slot="context-menu-radio-item"],
+  [data-slot="menubar-trigger"],
+  [data-slot="menubar-item"],
+  [data-slot="menubar-sub-trigger"],
+  [data-slot="menubar-checkbox-item"],
+  [data-slot="menubar-radio-item"],
+  [data-slot="command-item"],
+  [data-slot="combobox-item"],
+  [data-slot="tabs-trigger"],
+  [data-slot="toggle"],
+  [data-slot="toggle-group-item"] {
+    border-radius: 10px;
+    font-size: 0.8125rem;
+  }
+
+  [data-slot="navigation-menu-trigger"]:hover,
+  [data-slot="navigation-menu-trigger"][data-open],
+  [data-slot="navigation-menu-trigger"][data-popup-open],
+  [data-slot="navigation-menu-link"]:hover,
+  [data-slot="navigation-menu-link"][data-active="true"],
+  [data-slot="select-item"]:focus,
+  [data-slot="dropdown-menu-item"]:focus,
+  [data-slot="dropdown-menu-sub-trigger"]:focus,
+  [data-slot="dropdown-menu-checkbox-item"]:focus,
+  [data-slot="dropdown-menu-radio-item"]:focus,
+  [data-slot="context-menu-item"]:focus,
+  [data-slot="context-menu-sub-trigger"]:focus,
+  [data-slot="context-menu-checkbox-item"]:focus,
+  [data-slot="context-menu-radio-item"]:focus,
+  [data-slot="menubar-trigger"]:hover,
+  [data-slot="menubar-trigger"][aria-expanded="true"],
+  [data-slot="menubar-item"]:focus,
+  [data-slot="menubar-sub-trigger"]:focus,
+  [data-slot="menubar-checkbox-item"]:focus,
+  [data-slot="menubar-radio-item"]:focus,
+  [data-slot="command-item"][data-selected="true"],
+  [data-slot="combobox-item"][data-selected="true"],
+  [data-slot="tabs-trigger"][data-active],
+  [data-slot="toggle"][aria-pressed="true"],
+  [data-slot="toggle-group-item"][data-state="on"] {
+    background: var(--secondary);
+    color: var(--sage-dark);
+  }
+
+  [data-slot="select-label"],
+  [data-slot="dropdown-menu-label"],
+  [data-slot="context-menu-label"],
+  [data-slot="menubar-label"],
+  [data-slot="combobox-label"] {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+
+  [data-slot="dropdown-menu-shortcut"],
+  [data-slot="context-menu-shortcut"],
+  [data-slot="menubar-shortcut"],
+  [data-slot="progress-value"],
+  [data-slot="table-caption"],
+  [data-slot="breadcrumb-separator"],
+  [data-slot="breadcrumb-page"],
+  [data-slot="pagination-ellipsis"] {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+  }
+
+  [data-slot="tabs-list"],
+  [data-slot="menubar"] {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--background);
+  }
+
+  [data-slot="progress-track"] {
+    background: var(--secondary);
+  }
+
+  [data-slot="progress-indicator"] {
+    background: var(--primary);
+  }
+
+  [data-slot="skeleton"] {
+    border-radius: 16px;
+    background: linear-gradient(
+      90deg,
+      rgb(124 144 112 / 0.1),
+      rgb(124 144 112 / 0.18),
+      rgb(124 144 112 / 0.1)
+    );
+  }
+
+  [data-slot="kbd"] {
+    border-radius: 8px;
+    background: rgb(201 184 168 / 0.2);
+    font-family: var(--font-mono);
+    color: var(--sage-dark);
+  }
+
+  [data-slot="separator"],
+  [data-slot="select-separator"],
+  [data-slot="dropdown-menu-separator"],
+  [data-slot="context-menu-separator"],
+  [data-slot="menubar-separator"],
+  [data-slot="sidebar-separator"] {
+    background: var(--border);
+  }
+
+  [data-slot="tooltip-content"] {
+    border-radius: 12px;
+    background: var(--foreground);
+    color: var(--background);
+    box-shadow: 0 12px 40px rgb(0 0 0 / 0.18);
+  }
+
+  [data-slot="tooltip-content"] [data-slot="kbd"] {
+    background: rgb(247 246 243 / 0.18);
+    color: var(--background);
+  }
+
+  [data-slot="table-head"] {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 400;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+
+  [data-slot="table-row"] {
+    border-color: var(--border);
+  }
+
+  [data-slot="table-row"]:hover,
+  [data-slot="table-row"][data-state="selected"] {
+    background: rgb(124 144 112 / 0.08);
+  }
+
+  [data-slot="sidebar"],
+  [data-slot="sidebar-inset"] {
+    background: var(--card);
+  }
+
+  [data-slot="sidebar-trigger"],
+  [data-slot="sidebar-rail"] {
+    color: var(--text-secondary);
+  }
+}
+
 @layer utilities {
   .font-meta {
     font-family: var(--font-mono);

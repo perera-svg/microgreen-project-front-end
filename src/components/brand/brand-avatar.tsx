@@ -1,0 +1,1 @@
+export { Avatar as BrandAvatar, AvatarImage as BrandAvatarImage, AvatarFallback as BrandAvatarFallback, AvatarGroup as BrandAvatarGroup, AvatarGroupCount as BrandAvatarGroupCount, AvatarBadge as BrandAvatarBadge } from "@/components/ui/avatar"
