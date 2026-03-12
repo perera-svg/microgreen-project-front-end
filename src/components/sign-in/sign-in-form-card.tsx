@@ -1,3 +1,5 @@
+import { Link } from "@tanstack/react-router"
+
 import { BrandButton } from "@/components/brand/brand-button"
 import {
   BrandCard,
@@ -138,12 +140,12 @@ function SignInFormCard() {
       <BrandCardFooter className="justify-center px-10 pb-8 pt-0">
         <p className="text-[13px] text-text-secondary">
           {signInForm.placeholderAccountCopy}{" "}
-          <a
+          <Link
             className="font-semibold text-primary transition-colors hover:text-sage-dark"
-            href={signInForm.createAccountHref}
+            to={signInForm.createAccountHref}
           >
             {signInForm.createAccountLabel}
-          </a>
+          </Link>
         </p>
       </BrandCardFooter>
     </BrandCard>

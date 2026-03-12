@@ -64,7 +64,7 @@ export const signInStatusCard = {
 }
 
 export const signInForm = {
-  createAccountHref: "#",
+  createAccountHref: "/sign-up",
   createAccountLabel: "Create one",
   dividerLabel: "or",
   emailLabel: "Email Address",
@@ -76,7 +76,7 @@ export const signInForm = {
   oneTimeCodeHref: "#",
   oneTimeCodeLabel: "Use one-time code",
   passwordLabel: "Password",
-  passwordPlaceholder: "••••••••••",
+  passwordPlaceholder: "\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022",
   placeholderAccountCopy: "Don't have an account?",
   signInLabel: "Sign In",
   subtitle: "Sign in to your Ceylon Greens account",
