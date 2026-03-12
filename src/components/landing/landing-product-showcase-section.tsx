@@ -1,3 +1,5 @@
+import { Link } from "@tanstack/react-router"
+
 import { BrandButton } from "@/components/brand/brand-button"
 
 import {
@@ -26,7 +28,7 @@ function LandingProductShowcaseSection() {
         <div className="flex justify-center">
           <BrandButton
             nativeButton={false}
-            render={<a href={landingProductsCta.href} />}
+            render={<Link to={landingProductsCta.href} />}
             variant="outline"
           >
             {landingProductsCta.label}

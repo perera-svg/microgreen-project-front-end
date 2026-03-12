@@ -1,3 +1,5 @@
+import { Link } from "@tanstack/react-router"
+
 import { BrandButton } from "@/components/brand/brand-button"
 import {
   BrandNavigationMenu,
@@ -36,7 +38,15 @@ function LandingNavSection() {
               <BrandNavigationMenuList className="flex-wrap justify-start">
                 {landingNavLinks.map((link) => (
                   <BrandNavigationMenuItem key={link.label}>
-                    <BrandNavigationMenuLink render={<a href={link.href} />}>
+                    <BrandNavigationMenuLink
+                      render={
+                        link.href === "/shop" ? (
+                          <Link to={link.href} />
+                        ) : (
+                          <a href={link.href} />
+                        )
+                      }
+                    >
                       {link.label}
                     </BrandNavigationMenuLink>
                   </BrandNavigationMenuItem>
@@ -55,7 +65,7 @@ function LandingNavSection() {
               </BrandButton>
               <BrandButton
                 nativeButton={false}
-                render={<a href={landingNavCta.href} />}
+                render={<Link to={landingNavCta.href} />}
                 variant="destructive"
               >
                 {landingNavCta.label}

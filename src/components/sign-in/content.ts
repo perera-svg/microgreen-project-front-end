@@ -28,7 +28,7 @@ export const signInNav = {
   helpLabel: "Need help?",
   helpHref: "#",
   shopLabel: "Back to Shop",
-  shopTo: "/",
+  shopTo: "/shop",
 }
 
 export const signInPromo = {

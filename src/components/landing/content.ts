@@ -103,14 +103,14 @@ export type SocialLinkData = {
 }
 
 export const landingNavLinks: LandingNavLink[] = [
-  { href: "#shop", label: "Shop" },
+  { href: "/shop", label: "Shop" },
   { href: "#about", label: "About" },
   { href: "#export", label: "Export" },
   { href: "#journal", label: "Blog" },
 ]
 
 export const landingNavCta = {
-  href: "#shop",
+  href: "/shop",
   label: "Order Now",
 }
 
@@ -130,7 +130,7 @@ export const landingHero = {
   image: HeroMicrogreensImage,
   imageAlt: "Fresh trays of microgreens ready for harvest.",
   primaryCta: {
-    href: "#shop",
+    href: "/shop",
     label: "Shop Fresh Harvests",
   },
   secondaryCta: {
@@ -160,11 +160,12 @@ export const landingProductsHeading = {
 }
 
 export const landingProductsCta = {
-  href: "#shop",
+  href: "/shop",
   label: "View All 24 Varieties",
 }
 
 export const landingProductCardCtaLabel = "Add to Cart"
+export const landingProductCardCtaHref = "/shop"
 
 export const landingProducts: ProductCardData[] = [
   {
@@ -439,10 +440,10 @@ export const landingFooterColumns: FooterLinkColumnData[] = [
   },
   {
     links: [
-      { href: "#shop", label: "All Products" },
-      { href: "#shop", label: "Bundles" },
-      { href: "#subscribe", label: "Subscriptions" },
-      { href: "#footer", label: "Gift Cards" },
+      { href: "/shop", label: "All Products" },
+      { href: "/shop", label: "Bundles" },
+      { href: "/shop", label: "Subscriptions" },
+      { href: "/shop", label: "Gift Cards" },
     ],
     title: "Shop",
   },

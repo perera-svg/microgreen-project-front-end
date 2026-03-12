@@ -1,10 +1,12 @@
+import { Link } from "@tanstack/react-router"
+
 import { BrandBadge } from "@/components/brand/brand-badge"
 import { BrandButton } from "@/components/brand/brand-button"
 import { BrandCard } from "@/components/brand/brand-card"
 import { BrandCardContent } from "@/components/brand/brand-card"
 import { cn } from "@/lib/utils"
 
-import { landingProductCardCtaLabel } from "./content"
+import { landingProductCardCtaHref, landingProductCardCtaLabel } from "./content"
 import type { ProductCardData } from "./content"
 
 function ProductCard({
@@ -45,7 +47,7 @@ function ProductCard({
           <BrandButton
             className="w-full"
             nativeButton={false}
-            render={<a href="#subscribe" />}
+            render={<Link to={landingProductCardCtaHref} />}
           >
             {landingProductCardCtaLabel}
           </BrandButton>

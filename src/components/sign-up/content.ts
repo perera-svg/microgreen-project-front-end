@@ -28,7 +28,7 @@ export const signUpNav = {
   helpHref: "#",
   helpLabel: "Need help?",
   shopLabel: "Back to Shop",
-  shopTo: "/",
+  shopTo: "/shop",
 }
 
 export const signUpPromo = {

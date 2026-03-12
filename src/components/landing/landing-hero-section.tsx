@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router"
 import ArrowRightIcon from "lucide-react/dist/esm/icons/arrow-right"
 
 import { BrandBadge } from "@/components/brand/brand-badge"
@@ -26,7 +27,13 @@ function LandingHeroSection() {
           <div className="flex flex-col gap-3 sm:flex-row">
             <BrandButton
               nativeButton={false}
-              render={<a href={landingHero.primaryCta.href} />}
+              render={
+                landingHero.primaryCta.href === "/shop" ? (
+                  <Link to={landingHero.primaryCta.href} />
+                ) : (
+                  <a href={landingHero.primaryCta.href} />
+                )
+              }
             >
               {landingHero.primaryCta.label}
               <ArrowRightIcon aria-hidden className="size-4" />
