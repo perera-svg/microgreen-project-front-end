@@ -100,9 +100,14 @@ export const shopBreadcrumb = {
   homeTo: "/",
 }
 
-export const shopHeader = {
+const shopHeaderBase = {
   subtitle: "24 varieties · Harvested daily · Certified organic",
   title: "Our Microgreens",
+}
+
+export const shopHeader = {
+  ...shopHeaderBase,
+  subtitle: "24 varieties · Harvested daily · Certified organic",
 }
 
 export const shopQuickFilters: ShopQuickFilter[] = [
@@ -177,10 +182,15 @@ export const shopPlaceholderMessages = {
 
 export const shopProductCardCtaLabel = "Add to Cart"
 
-export const shopFooter = {
+const shopFooterBase = {
   copyright: "© 2026 Ceylon Greens. All rights reserved.",
   description:
     "Premium microgreens grown sustainably in the heart of Sri Lanka. Farm to table in 24 hours.",
+}
+
+export const shopFooter = {
+  ...shopFooterBase,
+  copyright: "© 2026 Ceylon Greens. All rights reserved.",
 }
 
 export const shopFooterColumns: ShopFooterLinkColumn[] = [
@@ -650,3 +660,13 @@ export const shopProducts: ShopProduct[] = [
     tags: ["organic", "superfood", "vegan"],
   },
 ]
+
+export const shopProductsById = new Map(
+  shopProducts.map((product) => [product.id, product] as const)
+)
+
+function getShopProductById(productId: string) {
+  return shopProductsById.get(productId)
+}
+
+export { getShopProductById }
