@@ -15,6 +15,7 @@
     "@fontsource/plus-jakarta-sans": "^5.2.8",
     "@fontsource/space-mono": "^5.2.9",
     "@tailwindcss/vite": "^4.2.1",
+    "@tanstack/react-router": "^1.166.7",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -37,6 +38,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@tanstack/router-plugin": "^1.166.7",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
