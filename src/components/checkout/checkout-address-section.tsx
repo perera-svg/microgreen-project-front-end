@@ -20,15 +20,16 @@ import {
   checkoutDistricts,
   checkoutFieldIds,
 } from "./content"
-import type { CheckoutDraft, CheckoutDraftErrors } from "./use-checkout-draft"
+import type {
+  CheckoutDraft,
+  CheckoutDraftChangeHandler,
+  CheckoutDraftErrors,
+} from "./use-checkout-draft"
 
 type CheckoutAddressSectionProps = {
   draft: CheckoutDraft
   errors: CheckoutDraftErrors
-  onFieldChange: <Field extends keyof CheckoutDraft>(
-    field: Field,
-    value: CheckoutDraft[Field]
-  ) => void
+  onFieldChange: CheckoutDraftChangeHandler
 }
 
 function CheckoutAddressSection({

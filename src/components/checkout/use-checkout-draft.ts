@@ -5,12 +5,21 @@ import {
   checkoutCities,
   checkoutDistricts,
   checkoutValidationMessages,
+  type CheckoutDeliveryMethod,
+  type CheckoutFlowStep,
 } from "./content"
 
 type CheckoutDraft = {
   addressLine1: string
   addressLine2: string
   city: string
+  currentStep: CheckoutFlowStep
+  deliveryDate: string
+  deliveryInstructionAccess: string
+  deliveryInstructionDropoff: string
+  deliveryInstructionSpecial: string
+  deliveryMethod: CheckoutDeliveryMethod
+  deliveryWindow: string
   district: string
   email: string
   fullName: string
@@ -18,8 +27,12 @@ type CheckoutDraft = {
   postalCode: string
 }
 
-type CheckoutDraftField = keyof CheckoutDraft
+type CheckoutDraftField = Exclude<keyof CheckoutDraft, "currentStep">
 type CheckoutDraftErrors = Partial<Record<CheckoutDraftField, string>>
+type CheckoutDraftChangeHandler = <Field extends CheckoutDraftField>(
+  field: Field,
+  value: CheckoutDraft[Field]
+) => void
 
 type CheckoutDraftSubmitResult =
   | { ok: true }
@@ -31,12 +44,24 @@ type CheckoutDraftSubmitResult =
 
 const CHECKOUT_CITY_SET = new Set<string>(checkoutCities)
 const CHECKOUT_DISTRICT_SET = new Set<string>(checkoutDistricts)
+const CHECKOUT_DELIVERY_METHOD_SET = new Set<CheckoutDeliveryMethod>([
+  "standard",
+  "express",
+  "pickup",
+])
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 const EMPTY_CHECKOUT_DRAFT: CheckoutDraft = {
   addressLine1: "",
   addressLine2: "",
   city: "",
+  currentStep: "details",
+  deliveryDate: "",
+  deliveryInstructionAccess: "",
+  deliveryInstructionDropoff: "",
+  deliveryInstructionSpecial: "",
+  deliveryMethod: "",
+  deliveryWindow: "",
   district: "",
   email: "",
   fullName: "",
@@ -48,54 +73,15 @@ function sanitizeDraftValue(value: unknown) {
   return typeof value === "string" ? value : ""
 }
 
-function sanitizeStoredDraft(candidate: unknown): CheckoutDraft {
-  if (!candidate || typeof candidate !== "object") {
-    return EMPTY_CHECKOUT_DRAFT
-  }
-
-  const storedDraft = candidate as Partial<Record<CheckoutDraftField, unknown>>
-
-  const nextDraft = {
-    addressLine1: sanitizeDraftValue(storedDraft.addressLine1),
-    addressLine2: sanitizeDraftValue(storedDraft.addressLine2),
-    city: sanitizeDraftValue(storedDraft.city),
-    district: sanitizeDraftValue(storedDraft.district),
-    email: sanitizeDraftValue(storedDraft.email),
-    fullName: sanitizeDraftValue(storedDraft.fullName),
-    phone: sanitizeDraftValue(storedDraft.phone),
-    postalCode: sanitizeDraftValue(storedDraft.postalCode),
-  }
-
-  if (!CHECKOUT_CITY_SET.has(nextDraft.city)) {
-    nextDraft.city = ""
-  }
-
-  if (!CHECKOUT_DISTRICT_SET.has(nextDraft.district)) {
-    nextDraft.district = ""
-  }
-
-  return nextDraft
+function isCheckoutFlowStep(value: unknown): value is CheckoutFlowStep {
+  return value === "details" || value === "delivery"
 }
 
-function readStoredCheckoutDraft() {
-  if (typeof window === "undefined") {
-    return EMPTY_CHECKOUT_DRAFT
-  }
-
-  try {
-    const rawDraft = window.localStorage.getItem(CHECKOUT_DRAFT_STORAGE_KEY)
-
-    if (!rawDraft) {
-      return EMPTY_CHECKOUT_DRAFT
-    }
-
-    return sanitizeStoredDraft(JSON.parse(rawDraft))
-  } catch {
-    return EMPTY_CHECKOUT_DRAFT
-  }
+function isCheckoutDeliveryMethod(value: string): value is CheckoutDeliveryMethod {
+  return value === "" || CHECKOUT_DELIVERY_METHOD_SET.has(value as CheckoutDeliveryMethod)
 }
 
-function validateDraft(draft: CheckoutDraft) {
+function validateDetails(draft: CheckoutDraft) {
   const errors: CheckoutDraftErrors = {}
   const trimmedEmail = draft.email.trim()
 
@@ -132,6 +118,99 @@ function validateDraft(draft: CheckoutDraft) {
   return errors
 }
 
+function validateDelivery(draft: CheckoutDraft) {
+  const errors: CheckoutDraftErrors = {}
+
+  if (!draft.deliveryMethod) {
+    errors.deliveryMethod = checkoutValidationMessages.deliveryMethod
+  }
+
+  if (!draft.deliveryDate.trim()) {
+    errors.deliveryDate = checkoutValidationMessages.deliveryDate
+  }
+
+  if (!draft.deliveryWindow.trim()) {
+    errors.deliveryWindow = checkoutValidationMessages.deliveryWindow
+  }
+
+  return errors
+}
+
+function sanitizeStoredDraft(candidate: unknown): CheckoutDraft {
+  if (!candidate || typeof candidate !== "object") {
+    return EMPTY_CHECKOUT_DRAFT
+  }
+
+  const storedDraft = candidate as Partial<Record<keyof CheckoutDraft, unknown>>
+
+  const nextDraft: CheckoutDraft = {
+    addressLine1: sanitizeDraftValue(storedDraft.addressLine1),
+    addressLine2: sanitizeDraftValue(storedDraft.addressLine2),
+    city: sanitizeDraftValue(storedDraft.city),
+    currentStep: isCheckoutFlowStep(storedDraft.currentStep)
+      ? storedDraft.currentStep
+      : "details",
+    deliveryDate: sanitizeDraftValue(storedDraft.deliveryDate),
+    deliveryInstructionAccess: sanitizeDraftValue(
+      storedDraft.deliveryInstructionAccess
+    ),
+    deliveryInstructionDropoff: sanitizeDraftValue(
+      storedDraft.deliveryInstructionDropoff
+    ),
+    deliveryInstructionSpecial: sanitizeDraftValue(
+      storedDraft.deliveryInstructionSpecial
+    ),
+    deliveryMethod: sanitizeDraftValue(
+      storedDraft.deliveryMethod
+    ) as CheckoutDeliveryMethod,
+    deliveryWindow: sanitizeDraftValue(storedDraft.deliveryWindow),
+    district: sanitizeDraftValue(storedDraft.district),
+    email: sanitizeDraftValue(storedDraft.email),
+    fullName: sanitizeDraftValue(storedDraft.fullName),
+    phone: sanitizeDraftValue(storedDraft.phone),
+    postalCode: sanitizeDraftValue(storedDraft.postalCode),
+  }
+
+  if (!CHECKOUT_CITY_SET.has(nextDraft.city)) {
+    nextDraft.city = ""
+  }
+
+  if (!CHECKOUT_DISTRICT_SET.has(nextDraft.district)) {
+    nextDraft.district = ""
+  }
+
+  if (!isCheckoutDeliveryMethod(nextDraft.deliveryMethod)) {
+    nextDraft.deliveryMethod = ""
+  }
+
+  if (
+    nextDraft.currentStep === "delivery" &&
+    Object.keys(validateDetails(nextDraft)).length > 0
+  ) {
+    nextDraft.currentStep = "details"
+  }
+
+  return nextDraft
+}
+
+function readStoredCheckoutDraft() {
+  if (typeof window === "undefined") {
+    return EMPTY_CHECKOUT_DRAFT
+  }
+
+  try {
+    const rawDraft = window.localStorage.getItem(CHECKOUT_DRAFT_STORAGE_KEY)
+
+    if (!rawDraft) {
+      return EMPTY_CHECKOUT_DRAFT
+    }
+
+    return sanitizeStoredDraft(JSON.parse(rawDraft))
+  } catch {
+    return EMPTY_CHECKOUT_DRAFT
+  }
+}
+
 function useCheckoutDraft() {
   const [draft, setDraft] = useState<CheckoutDraft>(() => readStoredCheckoutDraft())
   const [errors, setErrors] = useState<CheckoutDraftErrors>({})
@@ -147,10 +226,7 @@ function useCheckoutDraft() {
     )
   }, [draft])
 
-  function updateField<Field extends CheckoutDraftField>(
-    field: Field,
-    value: CheckoutDraft[Field]
-  ) {
+  const updateField: CheckoutDraftChangeHandler = (field, value) => {
     setDraft((current) => {
       if (current[field] === value) {
         return current
@@ -173,13 +249,13 @@ function useCheckoutDraft() {
     })
   }
 
-  function submitDraft(): CheckoutDraftSubmitResult {
-    const nextErrors = validateDraft(draft)
+  function submitDetails(): CheckoutDraftSubmitResult {
+    const nextErrors = validateDetails(draft)
     const invalidFields = Object.keys(nextErrors) as CheckoutDraftField[]
 
-    setErrors(nextErrors)
-
     if (invalidFields.length > 0) {
+      setErrors(nextErrors)
+
       return {
         errors: nextErrors,
         firstInvalidField: invalidFields[0],
@@ -187,23 +263,61 @@ function useCheckoutDraft() {
       }
     }
 
-    if (typeof window !== "undefined") {
-      window.localStorage.setItem(
-        CHECKOUT_DRAFT_STORAGE_KEY,
-        JSON.stringify(draft)
-      )
-    }
+    setErrors({})
+    setDraft((current) => ({
+      ...current,
+      currentStep: "delivery",
+    }))
 
     return { ok: true }
+  }
+
+  function submitDelivery(): CheckoutDraftSubmitResult {
+    const nextErrors = validateDelivery(draft)
+    const invalidFields = Object.keys(nextErrors) as CheckoutDraftField[]
+
+    if (invalidFields.length > 0) {
+      setErrors(nextErrors)
+
+      return {
+        errors: nextErrors,
+        firstInvalidField: invalidFields[0],
+        ok: false,
+      }
+    }
+
+    setErrors({})
+    return { ok: true }
+  }
+
+  function goToStep(step: CheckoutFlowStep) {
+    setErrors({})
+    setDraft((current) => {
+      if (current.currentStep === step) {
+        return current
+      }
+
+      return {
+        ...current,
+        currentStep: step,
+      }
+    })
   }
 
   return {
     draft,
     errors,
-    submitDraft,
+    goToStep,
+    submitDelivery,
+    submitDetails,
     updateField,
   }
 }
 
 export { useCheckoutDraft }
-export type { CheckoutDraft, CheckoutDraftErrors, CheckoutDraftField }
+export type {
+  CheckoutDraft,
+  CheckoutDraftChangeHandler,
+  CheckoutDraftErrors,
+  CheckoutDraftField,
+}

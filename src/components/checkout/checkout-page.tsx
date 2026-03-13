@@ -1,21 +1,23 @@
 import type { FormEvent } from "react"
 
 import { toast } from "sonner"
-import ArrowRightIcon from "lucide-react/dist/esm/icons/arrow-right"
 
-import { BrandButton } from "@/components/brand/brand-button"
-import { BrandSeparator } from "@/components/brand/brand-separator"
 import { useCart } from "@/components/cart/cart-provider"
 
-import { checkoutActions, checkoutFieldIds, checkoutToastMessages } from "./content"
-import { CheckoutAddressSection } from "./checkout-address-section"
-import { CheckoutContactSection } from "./checkout-contact-section"
+import { checkoutFieldIds, checkoutToastMessages } from "./content"
+import { CheckoutDeliveryStep } from "./checkout-delivery-step"
+import { CheckoutDetailsStep } from "./checkout-details-step"
 import { CheckoutEmptyState } from "./checkout-empty-state"
 import { CheckoutFooterBar } from "./checkout-footer-bar"
 import { CheckoutNav } from "./checkout-nav"
-import { CheckoutStepIndicator } from "./checkout-step-indicator"
 import { CheckoutSummaryCard } from "./checkout-summary-card"
-import { useCheckoutDraft } from "./use-checkout-draft"
+import { useCheckoutDraft, type CheckoutDraftField } from "./use-checkout-draft"
+
+function focusCheckoutField(field: CheckoutDraftField) {
+  window.requestAnimationFrame(() => {
+    document.getElementById(checkoutFieldIds[field])?.focus()
+  })
+}
 
 function CheckoutPage() {
   const {
@@ -26,23 +28,37 @@ function CheckoutPage() {
     subtotalLabel,
     totalLabel,
   } = useCart()
-  const { draft, errors, submitDraft, updateField } = useCheckoutDraft()
+  const {
+    draft,
+    errors,
+    goToStep,
+    submitDelivery,
+    submitDetails,
+    updateField,
+  } = useCheckoutDraft()
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function handleDetailsSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
-    const result = submitDraft()
+    const result = submitDetails()
 
     if (!result.ok) {
-      window.requestAnimationFrame(() => {
-        document.getElementById(checkoutFieldIds[result.firstInvalidField])?.focus()
-      })
+      focusCheckoutField(result.firstInvalidField)
+    }
+  }
 
+  function handleDeliverySubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+
+    const result = submitDelivery()
+
+    if (!result.ok) {
+      focusCheckoutField(result.firstInvalidField)
       return
     }
 
-    toast(checkoutToastMessages.nextStepTitle, {
-      description: checkoutToastMessages.nextStepDescription,
+    toast(checkoutToastMessages.paymentStepTitle, {
+      description: checkoutToastMessages.paymentStepDescription,
     })
   }
 
@@ -54,34 +70,22 @@ function CheckoutPage() {
         {hasItems ? (
           <section className="flex-1">
             <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[minmax(0,1fr)_26rem] lg:gap-10 lg:px-8 lg:py-12">
-              <form
-                noValidate
-                className="rounded-[24px] border border-border bg-card px-6 py-6 shadow-soft sm:px-8 sm:py-8"
-                onSubmit={handleSubmit}
-              >
-                <div className="flex flex-col gap-8">
-                  <CheckoutStepIndicator />
-                  <BrandSeparator />
-                  <CheckoutContactSection
-                    draft={draft}
-                    errors={errors}
-                    onFieldChange={updateField}
-                  />
-                  <BrandSeparator />
-                  <CheckoutAddressSection
-                    draft={draft}
-                    errors={errors}
-                    onFieldChange={updateField}
-                  />
-
-                  <div className="flex justify-start pt-2 sm:justify-end">
-                    <BrandButton className="w-full sm:w-auto" type="submit">
-                      {checkoutActions.continueLabel}
-                      <ArrowRightIcon data-icon="inline-end" />
-                    </BrandButton>
-                  </div>
-                </div>
-              </form>
+              {draft.currentStep === "details" ? (
+                <CheckoutDetailsStep
+                  draft={draft}
+                  errors={errors}
+                  onFieldChange={updateField}
+                  onSubmit={handleDetailsSubmit}
+                />
+              ) : (
+                <CheckoutDeliveryStep
+                  draft={draft}
+                  errors={errors}
+                  onBack={() => goToStep("details")}
+                  onFieldChange={updateField}
+                  onSubmit={handleDeliverySubmit}
+                />
+              )}
 
               <CheckoutSummaryCard
                 deliveryFeeLabel={deliveryFeeLabel}
