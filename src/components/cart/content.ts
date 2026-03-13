@@ -3,7 +3,7 @@ export const CART_DELIVERY_FEE = 350
 export const CART_DISCOUNT = 0
 
 export const cartLinks = {
-  checkoutTo: "/sign-in",
+  checkoutTo: "/checkout",
   continueShoppingTo: "/shop",
 }
 

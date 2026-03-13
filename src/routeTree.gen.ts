@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignUpRouteImport } from './routes/sign-up'
 import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as ShopRouteImport } from './routes/shop'
+import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as CartRouteImport } from './routes/cart'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShopIndexRouteImport } from './routes/shop.index'
@@ -30,6 +31,11 @@ const SignInRoute = SignInRouteImport.update({
 const ShopRoute = ShopRouteImport.update({
   id: '/shop',
   path: '/shop',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutRoute = CheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CartRoute = CartRouteImport.update({
@@ -56,6 +62,7 @@ const ShopProductIdRoute = ShopProductIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
   '/shop': typeof ShopRouteWithChildren
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
@@ -65,6 +72,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
   '/shop/$productId': typeof ShopProductIdRoute
@@ -74,6 +82,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
   '/shop': typeof ShopRouteWithChildren
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
@@ -85,17 +94,26 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/cart'
+    | '/checkout'
     | '/shop'
     | '/sign-in'
     | '/sign-up'
     | '/shop/$productId'
     | '/shop/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cart' | '/sign-in' | '/sign-up' | '/shop/$productId' | '/shop'
+  to:
+    | '/'
+    | '/cart'
+    | '/checkout'
+    | '/sign-in'
+    | '/sign-up'
+    | '/shop/$productId'
+    | '/shop'
   id:
     | '__root__'
     | '/'
     | '/cart'
+    | '/checkout'
     | '/shop'
     | '/sign-in'
     | '/sign-up'
@@ -106,6 +124,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CartRoute: typeof CartRoute
+  CheckoutRoute: typeof CheckoutRoute
   ShopRoute: typeof ShopRouteWithChildren
   SignInRoute: typeof SignInRoute
   SignUpRoute: typeof SignUpRoute
@@ -132,6 +151,13 @@ declare module '@tanstack/react-router' {
       path: '/shop'
       fullPath: '/shop'
       preLoaderRoute: typeof ShopRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout': {
+      id: '/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof CheckoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cart': {
@@ -180,6 +206,7 @@ const ShopRouteWithChildren = ShopRoute._addFileChildren(ShopRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CartRoute: CartRoute,
+  CheckoutRoute: CheckoutRoute,
   ShopRoute: ShopRouteWithChildren,
   SignInRoute: SignInRoute,
   SignUpRoute: SignUpRoute,
