@@ -63,13 +63,27 @@ function LandingHeroSection() {
 
         <BrandCard className="overflow-hidden rounded-[28px] border-none bg-[#dbe4d7] p-0 shadow-[0_18px_60px_rgb(74_93_67_/_0.18)]">
           <div className="aspect-[0.92]">
-            <img
-              alt={landingHero.imageAlt}
-              className="h-full w-full object-cover"
-              decoding="async"
-              fetchPriority="high"
-              src={landingHero.image}
-            />
+            {landingHero.video ? (
+              <video
+                aria-label={landingHero.imageAlt}
+                autoPlay
+                className="h-full w-full object-cover"
+                loop
+                muted
+                playsInline
+                poster={landingHero.image}
+                preload="metadata"
+                src={landingHero.video}
+              />
+            ) : (
+              <img
+                alt={landingHero.imageAlt}
+                className="h-full w-full object-cover"
+                decoding="async"
+                fetchPriority="high"
+                src={landingHero.image}
+              />
+            )}
           </div>
         </BrandCard>
       </div>

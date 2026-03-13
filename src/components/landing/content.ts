@@ -12,6 +12,7 @@ import TruckIcon from "lucide-react/dist/esm/icons/truck"
 
 import FarmTeamImage from "@/assets/landing/farm-team.png"
 import HeroMicrogreensImage from "@/assets/landing/hero-microgreens.png"
+import LandingHeroVideo from "@/assets/Life_cycle_microgreen_plant_video_delpmaspu_.mp4"
 import JournalDubaiImage from "@/assets/landing/journal-dubai.png"
 import JournalFeaturedImage from "@/assets/landing/journal-featured.png"
 import JournalStorageImage from "@/assets/landing/journal-storage.png"
@@ -129,6 +130,7 @@ export const landingHero = {
   eyebrow: "FARM-FRESH / COLOMBO",
   image: HeroMicrogreensImage,
   imageAlt: "Fresh trays of microgreens ready for harvest.",
+  video: LandingHeroVideo,
   primaryCta: {
     href: "/shop",
     label: "Shop Fresh Harvests",
