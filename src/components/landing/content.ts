@@ -107,7 +107,7 @@ export const landingNavLinks: LandingNavLink[] = [
   { href: "/shop", label: "Shop" },
   { href: "/about", label: "About" },
   { href: "/#export", label: "Export" },
-  { href: "/#journal", label: "Blog" },
+  { href: "/blog", label: "Blog" },
 ]
 
 export const landingNavCta = {
@@ -401,7 +401,7 @@ export const landingJournalFeaturedArticle: JournalArticleData = {
   date: "Feb 12, 2025",
   excerpt:
     "New research confirms what we've long known - these tiny greens pack an extraordinary nutritional punch that's changing how chefs and families think about food.",
-  href: "#journal",
+  href: "/blog",
   image: JournalFeaturedImage,
   imageAlt: "A close-up of microgreens used in a nutrition story.",
   tag: "Nutrition",
@@ -412,7 +412,7 @@ export const landingJournalFeaturedArticle: JournalArticleData = {
 export const landingJournalTeasers: JournalArticleData[] = [
   {
     date: "Jan 28, 2025",
-    href: "#journal",
+    href: "/blog",
     image: JournalStorageImage,
     imageAlt: "A close-up of stored microgreens for a freshness guide.",
     tag: "Tips",
@@ -421,7 +421,7 @@ export const landingJournalTeasers: JournalArticleData[] = [
   },
   {
     date: "Jan 15, 2025",
-    href: "#export",
+    href: "/blog",
     image: JournalDubaiImage,
     imageAlt: "Packaged microgreens prepared for export.",
     tag: "Story",
@@ -444,7 +444,7 @@ export const landingFooterColumns: FooterLinkColumnData[] = [
     links: [
       { href: "/shop", label: "All Products" },
       { href: "/shop", label: "Bundles" },
-      { href: "/shop", label: "Subscriptions" },
+      { href: "/subscription", label: "Subscriptions" },
       { href: "/shop", label: "Gift Cards" },
     ],
     title: "Shop",
@@ -454,7 +454,7 @@ export const landingFooterColumns: FooterLinkColumnData[] = [
       { href: "/#export", label: "Export Program" },
       { href: "/#export", label: "Certifications" },
       { href: "/#export", label: "MOQ & Pricing" },
-      { href: "#footer", label: "Contact Agent" },
+      { href: "/contact", label: "Contact Agent" },
     ],
     title: "Export",
   },

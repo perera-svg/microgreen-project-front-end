@@ -1,6 +1,5 @@
 import { Link } from "@tanstack/react-router"
 import HeartIcon from "lucide-react/dist/esm/icons/heart"
-import SearchIcon from "lucide-react/dist/esm/icons/search"
 import ShoppingCartIcon from "lucide-react/dist/esm/icons/shopping-cart"
 
 import { useCart } from "@/components/cart/cart-provider"
@@ -13,18 +12,21 @@ import {
 } from "@/components/brand/brand-navigation-menu"
 import { isPureAppRouteHref } from "@/lib/utils"
 
-import { shopBrand, shopNav, shopNavLinks, shopPlaceholderMessages } from "./content"
+import {
+  blogBrand,
+  blogNav,
+  blogNavLinks,
+  blogNavUtilityIcon,
+  blogPlaceholderMessages,
+} from "./content"
 
-type ShopNavProps = {
-  activeHref?: string | null
+type BlogNavProps = {
   onPlaceholderAction: (message: string) => void
 }
 
-function ShopNav({
-  activeHref = "/shop",
-  onPlaceholderAction,
-}: ShopNavProps) {
-  const BrandIcon = shopBrand.icon
+function BlogNav({ onPlaceholderAction }: BlogNavProps) {
+  const BrandIcon = blogBrand.icon
+  const UtilityIcon = blogNavUtilityIcon
   const { itemCount } = useCart()
 
   return (
@@ -33,17 +35,17 @@ function ShopNav({
         <Link className="flex items-center gap-2 text-sage-dark" to="/">
           <BrandIcon aria-hidden className="size-5" />
           <span className="font-serif text-lg italic leading-none">
-            {shopBrand.name}
+            {blogBrand.name}
           </span>
         </Link>
 
         <BrandNavigationMenu className="order-3 w-full justify-start md:order-2 md:w-auto md:justify-center">
           <BrandNavigationMenuList className="flex-wrap justify-start gap-3 md:gap-5">
-            {shopNavLinks.map((link) => (
+            {blogNavLinks.map((link) => (
               <BrandNavigationMenuItem key={link.label}>
                 <BrandNavigationMenuLink
                   className={
-                    activeHref && link.href === activeHref
+                    link.href === "/blog"
                       ? "bg-secondary text-sage-dark"
                       : "text-text-secondary"
                   }
@@ -64,20 +66,20 @@ function ShopNav({
 
         <div className="order-2 flex items-center gap-2 md:order-3">
           <BrandButton
-            aria-label="Search products"
+            aria-label="Search journal"
             size="icon-sm"
             type="button"
             variant="ghost"
-            onClick={() => onPlaceholderAction(shopPlaceholderMessages.search)}
+            onClick={() => onPlaceholderAction(blogPlaceholderMessages.search)}
           >
-            <SearchIcon aria-hidden />
+            <UtilityIcon aria-hidden />
           </BrandButton>
           <BrandButton
             aria-label="Saved items"
             size="icon-sm"
             type="button"
             variant="ghost"
-            onClick={() => onPlaceholderAction(shopPlaceholderMessages.wishlist)}
+            onClick={() => onPlaceholderAction(blogPlaceholderMessages.wishlist)}
           >
             <HeartIcon aria-hidden />
           </BrandButton>
@@ -101,11 +103,11 @@ function ShopNav({
           <BrandButton
             className="rounded-full px-4"
             nativeButton={false}
-            render={<Link to={shopNav.orderCtaTo} />}
+            render={<Link to={blogNav.orderCtaTo} />}
             size="sm"
             variant="destructive"
           >
-            {shopNav.orderCtaLabel}
+            {blogNav.orderCtaLabel}
           </BrandButton>
         </div>
       </div>
@@ -113,4 +115,4 @@ function ShopNav({
   )
 }
 
-export { ShopNav }
+export { BlogNav }

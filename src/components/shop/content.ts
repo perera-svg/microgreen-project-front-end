@@ -86,7 +86,7 @@ export const shopNavLinks: ShopLink[] = [
   { href: "/shop", label: "Shop" },
   { href: "/about", label: "About" },
   { href: "/#export", label: "Export" },
-  { href: "/#journal", label: "Blog" },
+  { href: "/blog", label: "Blog" },
 ]
 
 export const shopNav = {
@@ -198,7 +198,7 @@ export const shopFooterColumns: ShopFooterLinkColumn[] = [
     links: [
       { href: "/shop", label: "All Products" },
       { href: "/shop", label: "Bundles" },
-      { href: "/shop", label: "Subscriptions" },
+      { href: "/subscription", label: "Subscriptions" },
     ],
     title: "Shop",
   },
@@ -206,7 +206,7 @@ export const shopFooterColumns: ShopFooterLinkColumn[] = [
     links: [
       { href: "/about", label: "About Us" },
       { href: "/about#farm", label: "Our Farm" },
-      { href: "/#footer", label: "Contact" },
+      { href: "/contact", label: "Contact" },
     ],
     title: "Company",
   },

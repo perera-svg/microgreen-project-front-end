@@ -120,7 +120,7 @@ export const aboutNavLinks: AboutNavLink[] = [
   { href: "/shop", label: "Shop" },
   { href: "/about", isActive: true, label: "About" },
   { href: "/#export", label: "Export" },
-  { href: "/#journal", label: "Blog" },
+  { href: "/blog", label: "Blog" },
 ]
 
 export const aboutMobileQuickLinks: AboutQuickLink[] = [
