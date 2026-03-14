@@ -15,6 +15,7 @@ import {
   landingNavUtilityIcon,
   landingNavUtilityLabel,
 } from "./content"
+import { isPureAppRouteHref } from "@/lib/utils"
 
 function LandingNavSection() {
   const BrandIcon = landingBrand.icon
@@ -40,7 +41,7 @@ function LandingNavSection() {
                   <BrandNavigationMenuItem key={link.label}>
                     <BrandNavigationMenuLink
                       render={
-                        link.href === "/shop" ? (
+                        isPureAppRouteHref(link.href) ? (
                           <Link to={link.href} />
                         ) : (
                           <a href={link.href} />

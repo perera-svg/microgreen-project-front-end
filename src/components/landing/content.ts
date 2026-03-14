@@ -105,9 +105,9 @@ export type SocialLinkData = {
 
 export const landingNavLinks: LandingNavLink[] = [
   { href: "/shop", label: "Shop" },
-  { href: "#about", label: "About" },
-  { href: "#export", label: "Export" },
-  { href: "#journal", label: "Blog" },
+  { href: "/about", label: "About" },
+  { href: "/#export", label: "Export" },
+  { href: "/#journal", label: "Blog" },
 ]
 
 export const landingNavCta = {
@@ -433,9 +433,9 @@ export const landingJournalTeasers: JournalArticleData[] = [
 export const landingFooterColumns: FooterLinkColumnData[] = [
   {
     links: [
-      { href: "#about", label: "About Us" },
-      { href: "#about", label: "Our Farm" },
-      { href: "#about", label: "Sustainability" },
+      { href: "/about", label: "About Us" },
+      { href: "/about#farm", label: "Our Farm" },
+      { href: "/about#sustainability", label: "Sustainability" },
       { href: "#footer", label: "Careers" },
     ],
     title: "Company",
@@ -451,9 +451,9 @@ export const landingFooterColumns: FooterLinkColumnData[] = [
   },
   {
     links: [
-      { href: "#export", label: "Export Program" },
-      { href: "#export", label: "Certifications" },
-      { href: "#export", label: "MOQ & Pricing" },
+      { href: "/#export", label: "Export Program" },
+      { href: "/#export", label: "Certifications" },
+      { href: "/#export", label: "MOQ & Pricing" },
       { href: "#footer", label: "Contact Agent" },
     ],
     title: "Export",

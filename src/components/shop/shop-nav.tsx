@@ -11,6 +11,7 @@ import {
   BrandNavigationMenuLink,
   BrandNavigationMenuList,
 } from "@/components/brand/brand-navigation-menu"
+import { isPureAppRouteHref } from "@/lib/utils"
 
 import { shopBrand, shopNav, shopNavLinks, shopPlaceholderMessages } from "./content"
 
@@ -43,7 +44,7 @@ function ShopNav({ onPlaceholderAction }: ShopNavProps) {
                       : "text-text-secondary"
                   }
                   render={
-                    link.href === "/shop" ? (
+                    isPureAppRouteHref(link.href) ? (
                       <Link to={link.href} />
                     ) : (
                       <a href={link.href} />

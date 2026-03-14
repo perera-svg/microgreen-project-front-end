@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router"
 
 import type { FooterLinkColumnData } from "./content"
+import { isPureAppRouteHref } from "@/lib/utils"
 
 function FooterLinkColumn({ links, title }: FooterLinkColumnData) {
   return (
@@ -9,7 +10,7 @@ function FooterLinkColumn({ links, title }: FooterLinkColumnData) {
       <ul className="flex flex-col gap-2">
         {links.map((link) => (
           <li key={`${title}-${link.label}`}>
-            {link.href === "/shop" ? (
+            {isPureAppRouteHref(link.href) ? (
               <Link
                 className="text-sm text-white/65 transition-colors hover:text-white"
                 to={link.href}

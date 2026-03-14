@@ -84,7 +84,7 @@ export const shopBrand = {
 
 export const shopNavLinks: ShopLink[] = [
   { href: "/shop", label: "Shop" },
-  { href: "/#about", label: "About" },
+  { href: "/about", label: "About" },
   { href: "/#export", label: "Export" },
   { href: "/#journal", label: "Blog" },
 ]
@@ -204,8 +204,8 @@ export const shopFooterColumns: ShopFooterLinkColumn[] = [
   },
   {
     links: [
-      { href: "/#about", label: "About Us" },
-      { href: "/#about", label: "Our Farm" },
+      { href: "/about", label: "About Us" },
+      { href: "/about#farm", label: "Our Farm" },
       { href: "/#footer", label: "Contact" },
     ],
     title: "Company",
