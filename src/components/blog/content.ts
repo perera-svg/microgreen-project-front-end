@@ -13,8 +13,10 @@ import BlogCardNutrientsImage from "@/assets/blog/card-nutrients.png"
 import BlogCardSmoothiesImage from "@/assets/blog/card-smoothies.png"
 import BlogCardStorageImage from "@/assets/blog/card-storage.png"
 import BlogCardWinterGuideImage from "@/assets/blog/card-winter-guide.png"
-import BlogFeaturedAuthorImage from "@/assets/blog/featured-author.png"
-import BlogFeaturedArticleImage from "@/assets/blog/featured-article.png"
+import BlogArticleNutritionHeroImage from "@/assets/blog-detail/article-nutrition-hero.png"
+import BlogMorePeaRecipesImage from "@/assets/blog-detail/more-pea-recipes.png"
+import BlogMoreSunflowerGuideImage from "@/assets/blog-detail/more-sunflower-guide.png"
+import BlogMoreZeroWasteFarmImage from "@/assets/blog-detail/more-zero-waste-farm.png"
 import JournalDubaiImage from "@/assets/landing/journal-dubai.png"
 import JournalFeaturedImage from "@/assets/landing/journal-featured.png"
 import JournalStorageImage from "@/assets/landing/journal-storage.png"
@@ -30,6 +32,32 @@ export type BlogIcon = ComponentType<SVGProps<SVGSVGElement>>
 export type BlogCategory = "all" | "nutrition" | "farm-stories" | "recipes" | "news"
 export type BlogFilterCategory = Exclude<BlogCategory, "all">
 
+export type BlogArticleId =
+  | "microgreens-40x-more-nutritious"
+  | "microgreen-nutrient-guide"
+  | "store-microgreens-freshness"
+  | "day-at-ceylon-greens-farm"
+  | "microgreen-smoothie-recipes"
+  | "uae-australia-expansion"
+  | "winter-growing-guide"
+  | "choosing-the-right-format"
+  | "weekly-microgreens-meal-plan"
+  | "why-we-harvest-before-sunrise"
+  | "packing-line-routine"
+  | "planning-with-the-monsoon"
+  | "weekday-lunch-bowls"
+  | "restaurant-plating-ideas"
+  | "breakfast-combos-with-greens"
+  | "new-packaging-standard"
+  | "chef-workshop-series"
+  | "delivery-pilot-results"
+  | "spring-milestones-roundup"
+  | "growing-sunflower-microgreens-guide"
+  | "chef-approved-pea-shoot-recipes"
+  | "zero-waste-microgreen-farm"
+  | "easy-recipes-with-microgreens"
+  | "growing-your-first-tray-at-home"
+
 export type BlogLink = {
   href: string
   label: string
@@ -40,27 +68,30 @@ export type BlogCategoryOption = {
   value: BlogCategory
 }
 
-export type BlogArticleData = {
+export type BlogArticleSummary = {
   category: BlogFilterCategory
   date: string
   excerpt: string
-  id: string
+  id: BlogArticleId
   image: string
   imageAlt: string
+  readTime: string
   tag: string
   tagVariant?: "destructive" | "outline" | "secondary"
   title: string
 }
 
+export type BlogArticleData = BlogArticleSummary
+
 export type BlogFeaturedArticleData = {
-  authorAvatar: string
-  authorAvatarAlt: string
+  authorAvatar?: string
+  authorAvatarAlt?: string
   authorName: string
   category: BlogFilterCategory
   date: string
   excerpt: string
   featuredBadge: string
-  id: string
+  id: BlogArticleId
   image: string
   imageAlt: string
   readLabel: string
@@ -94,6 +125,8 @@ export type BlogSocialLink = {
 export const BLOG_PAGE_SIZE = 6
 
 export const blogRoute = "/blog"
+export const blogFeaturedArticleId: BlogArticleId =
+  "microgreens-40x-more-nutritious"
 
 export const blogBrand = {
   icon: SproutIcon,
@@ -114,11 +147,16 @@ export const blogNav = {
 }
 
 export const blogPlaceholderMessages = {
-  articleDescription:
-    "The full article pages are not wired in yet, but the blog index is ready.",
-  articleTitle: "Article pages coming soon",
   search: "Search is coming soon",
+  social: "Direct social sharing is coming soon",
   wishlist: "Saved items are coming soon",
+}
+
+export const blogCopyMessages = {
+  failureDescription: "Copy the URL manually from the address bar.",
+  failureTitle: "Copy failed",
+  successDescription: "The article URL is ready to share.",
+  successTitle: "Link copied",
 }
 
 export const blogHeader = {
@@ -134,25 +172,21 @@ export const blogCategoryOptions: BlogCategoryOption[] = [
   { label: "News", value: "news" },
 ]
 
-export const blogFeaturedArticle: BlogFeaturedArticleData = {
-  authorAvatar: BlogFeaturedAuthorImage,
-  authorAvatarAlt: "Portrait of Dr. Kavinda Raj.",
-  authorName: "Dr. Kavinda Raj",
+const featuredArticleSummary: BlogArticleSummary = {
   category: "nutrition",
-  date: "Feb 12, 2026",
+  date: "Feb 12, 2025",
   excerpt:
-    "New research reveals that microgreens pack up to 40 times more vitamins and minerals than their mature counterparts. We explore the science behind these tiny powerhouses and why every kitchen should grow them.",
-  featuredBadge: "Featured",
-  id: "urban-nutrition-future",
-  image: BlogFeaturedArticleImage,
-  imageAlt: "A plated microgreen salad photographed in soft natural light.",
-  readLabel: "Read Article",
+    "New research shows just how concentrated microgreens can be. We break down the USDA-backed findings, compare key nutrients side by side, and show how to get the most from every handful.",
+  id: blogFeaturedArticleId,
+  image: BlogArticleNutritionHeroImage,
+  imageAlt: "Freshly harvested purple and green microgreens arranged in a shallow tray.",
   readTime: "5 min read",
   tag: "Nutrition",
-  title: "Why Microgreens Are the Future of Urban Nutrition",
+  tagVariant: "secondary",
+  title: "Why Microgreens Are 40x More Nutritious Than Full-Grown Plants",
 }
 
-export const blogArticles: BlogArticleData[] = [
+const blogGridArticlesData: BlogArticleSummary[] = [
   {
     category: "nutrition",
     date: "Jan 28, 2026",
@@ -161,6 +195,7 @@ export const blogArticles: BlogArticleData[] = [
     id: "microgreen-nutrient-guide",
     image: BlogCardNutrientsImage,
     imageAlt: "Assorted microgreens laid out in a nutrient comparison guide.",
+    readTime: "6 min read",
     tag: "Nutrition",
     tagVariant: "secondary",
     title: "The Complete Guide to Microgreen Nutrients",
@@ -173,6 +208,7 @@ export const blogArticles: BlogArticleData[] = [
     id: "store-microgreens-freshness",
     image: BlogCardStorageImage,
     imageAlt: "Microgreens stored in glass jars on a bright kitchen counter.",
+    readTime: "4 min read",
     tag: "Tips",
     tagVariant: "outline",
     title: "How to Store Microgreens for Maximum Freshness",
@@ -181,10 +217,11 @@ export const blogArticles: BlogArticleData[] = [
     category: "farm-stories",
     date: "Jan 3, 2026",
     excerpt:
-      "Follow our team through a typical day - from pre-dawn harvesting to afternoon packing.",
+      "Follow our team through a typical day from pre-dawn harvesting to afternoon packing.",
     id: "day-at-ceylon-greens-farm",
     image: BlogCardFarmDayImage,
     imageAlt: "Freshly harvested microgreens on a farm worktable.",
+    readTime: "5 min read",
     tag: "Farm Stories",
     tagVariant: "secondary",
     title: "A Day in the Life at Ceylon Greens Farm",
@@ -197,6 +234,7 @@ export const blogArticles: BlogArticleData[] = [
     id: "microgreen-smoothie-recipes",
     image: BlogCardSmoothiesImage,
     imageAlt: "Green smoothie bowl topped with berries and microgreens.",
+    readTime: "4 min read",
     tag: "Recipes",
     tagVariant: "secondary",
     title: "5 Microgreen Smoothie Recipes for Morning Energy",
@@ -209,6 +247,7 @@ export const blogArticles: BlogArticleData[] = [
     id: "uae-australia-expansion",
     image: BlogCardExportNewsImage,
     imageAlt: "Shipping containers and logistics lanes at sunset.",
+    readTime: "3 min read",
     tag: "News",
     tagVariant: "destructive",
     title: "Ceylon Greens Expands to UAE and Australian Markets",
@@ -221,6 +260,7 @@ export const blogArticles: BlogArticleData[] = [
     id: "winter-growing-guide",
     image: BlogCardWinterGuideImage,
     imageAlt: "Rows of microgreens growing in a cool-season greenhouse.",
+    readTime: "5 min read",
     tag: "Seasonal",
     tagVariant: "outline",
     title: "Winter Growing Guide: Best Microgreens for the Cool Season",
@@ -233,6 +273,7 @@ export const blogArticles: BlogArticleData[] = [
     id: "choosing-the-right-format",
     image: ProductMixedBoxImage,
     imageAlt: "A curated box of microgreens photographed from above.",
+    readTime: "4 min read",
     tag: "Guide",
     tagVariant: "outline",
     title: "How to Choose the Right Microgreen Format for Your Kitchen",
@@ -245,6 +286,7 @@ export const blogArticles: BlogArticleData[] = [
     id: "weekly-microgreens-meal-plan",
     image: ProductSunflowerImage,
     imageAlt: "Sunflower microgreens prepared as part of a weekly meal plan.",
+    readTime: "5 min read",
     tag: "Wellness",
     tagVariant: "secondary",
     title: "Building a Weekly Meal Plan Around Fresh Microgreens",
@@ -257,6 +299,7 @@ export const blogArticles: BlogArticleData[] = [
     id: "why-we-harvest-before-sunrise",
     image: JournalFeaturedImage,
     imageAlt: "Harvest trays lined up before sunrise on the farm.",
+    readTime: "4 min read",
     tag: "Farm Stories",
     tagVariant: "secondary",
     title: "Why We Harvest Before Sunrise",
@@ -269,6 +312,7 @@ export const blogArticles: BlogArticleData[] = [
     id: "packing-line-routine",
     image: ProductBroccoliImage,
     imageAlt: "Broccoli microgreens prepared for packing.",
+    readTime: "4 min read",
     tag: "Behind the Scenes",
     tagVariant: "outline",
     title: "Inside Our Daily Packing and Cold-Chain Routine",
@@ -281,6 +325,7 @@ export const blogArticles: BlogArticleData[] = [
     id: "planning-with-the-monsoon",
     image: ProductWheatgrassImage,
     imageAlt: "A lush wheatgrass tray under diffused monsoon light.",
+    readTime: "5 min read",
     tag: "Field Notes",
     tagVariant: "outline",
     title: "Planning a Harvest Calendar Around Sri Lanka's Monsoon",
@@ -293,6 +338,7 @@ export const blogArticles: BlogArticleData[] = [
     id: "weekday-lunch-bowls",
     image: ProductRadishImage,
     imageAlt: "Radish microgreens plated as a lunch bowl garnish.",
+    readTime: "4 min read",
     tag: "Recipes",
     tagVariant: "secondary",
     title: "Weekday Lunch Bowls Built Around Microgreens",
@@ -305,6 +351,7 @@ export const blogArticles: BlogArticleData[] = [
     id: "restaurant-plating-ideas",
     image: ProductPeaShootsImage,
     imageAlt: "Pea shoots styled on a plated restaurant dish.",
+    readTime: "3 min read",
     tag: "Chef Notes",
     tagVariant: "outline",
     title: "Restaurant Plating Ideas Using Pea Shoots and Radish Tops",
@@ -317,6 +364,7 @@ export const blogArticles: BlogArticleData[] = [
     id: "breakfast-combos-with-greens",
     image: JournalStorageImage,
     imageAlt: "Fresh microgreens arranged beside breakfast ingredients.",
+    readTime: "3 min read",
     tag: "Breakfast",
     tagVariant: "outline",
     title: "3 Easy Breakfast Combinations with Microgreens",
@@ -329,6 +377,7 @@ export const blogArticles: BlogArticleData[] = [
     id: "new-packaging-standard",
     image: JournalDubaiImage,
     imageAlt: "Export-ready microgreens packaged for overseas delivery.",
+    readTime: "3 min read",
     tag: "Update",
     tagVariant: "destructive",
     title: "The Packaging Upgrade Behind Our New Retail Launches",
@@ -341,6 +390,7 @@ export const blogArticles: BlogArticleData[] = [
     id: "chef-workshop-series",
     image: BlogCardExportNewsImage,
     imageAlt: "Restaurant and export logistics imagery for a workshop update.",
+    readTime: "4 min read",
     tag: "Community",
     tagVariant: "outline",
     title: "How Our Chef Workshop Series Is Shaping New Harvest Plans",
@@ -353,6 +403,7 @@ export const blogArticles: BlogArticleData[] = [
     id: "delivery-pilot-results",
     image: BlogCardFarmDayImage,
     imageAlt: "Farm logistics and delivery preparation photographed at golden hour.",
+    readTime: "4 min read",
     tag: "Operations",
     tagVariant: "outline",
     title: "Results from Our Latest Colombo Delivery Pilot",
@@ -365,11 +416,114 @@ export const blogArticles: BlogArticleData[] = [
     id: "spring-milestones-roundup",
     image: BlogCardNutrientsImage,
     imageAlt: "A bright assortment of microgreens photographed as part of a milestone roundup.",
+    readTime: "4 min read",
     tag: "Roundup",
     tagVariant: "outline",
     title: "Quarterly Roundup: New Clients, New Trays, New Capacity",
   },
 ]
+
+const blogAdditionalArticlesData: BlogArticleSummary[] = [
+  {
+    category: "farm-stories",
+    date: "Jan 28, 2025",
+    excerpt:
+      "A practical step-by-step growing guide for sturdy stems, full cotyledons, and sweet sunflower flavor.",
+    id: "growing-sunflower-microgreens-guide",
+    image: BlogMoreSunflowerGuideImage,
+    imageAlt: "Sunflower microgreens growing in a dense tray under soft daylight.",
+    readTime: "7 min read",
+    tag: "Growing",
+    tagVariant: "outline",
+    title: "The Complete Guide to Growing Sunflower Microgreens",
+  },
+  {
+    category: "recipes",
+    date: "Feb 3, 2025",
+    excerpt:
+      "A chef-led set of bright, fast dishes that let fresh pea shoots stay crisp and expressive.",
+    id: "chef-approved-pea-shoot-recipes",
+    image: BlogMorePeaRecipesImage,
+    imageAlt: "A cook arranging fresh pea shoot microgreens on a plated dish.",
+    readTime: "4 min read",
+    tag: "Recipes",
+    tagVariant: "secondary",
+    title: "5 Chef-Approved Recipes with Pea Shoot Microgreens",
+  },
+  {
+    category: "farm-stories",
+    date: "Feb 8, 2025",
+    excerpt:
+      "Inside the systems, packaging choices, and harvest planning behind our lower-waste farm routine.",
+    id: "zero-waste-microgreen-farm",
+    image: BlogMoreZeroWasteFarmImage,
+    imageAlt: "A greenhouse aisle showing organized trays and sunlight over a production bench.",
+    readTime: "6 min read",
+    tag: "Sustainability",
+    tagVariant: "secondary",
+    title: "How We're Building a Zero-Waste Microgreen Farm",
+  },
+  {
+    category: "recipes",
+    date: "Feb 4, 2025",
+    excerpt:
+      "Five quick dishes that turn one fresh tray into a week of bright salads, toast, and bowls.",
+    id: "easy-recipes-with-microgreens",
+    image: BlogCardSmoothiesImage,
+    imageAlt: "Microgreens styled as part of a bright, ready-to-eat meal.",
+    readTime: "3 min read",
+    tag: "Recipes",
+    tagVariant: "secondary",
+    title: "5 Easy Recipes with Microgreens",
+  },
+  {
+    category: "farm-stories",
+    date: "Feb 6, 2025",
+    excerpt:
+      "The beginner-friendly tray setup, soaking rhythm, and harvest window we recommend for first-time growers.",
+    id: "growing-your-first-tray-at-home",
+    image: BlogCardFarmDayImage,
+    imageAlt: "Hands arranging a fresh tray of microgreens on a work surface.",
+    readTime: "4 min read",
+    tag: "Growing",
+    tagVariant: "outline",
+    title: "Growing Your First Tray at Home",
+  },
+]
+
+export const blogArticles = blogGridArticlesData
+export const blogAllArticles: BlogArticleSummary[] = [
+  featuredArticleSummary,
+  ...blogGridArticlesData,
+  ...blogAdditionalArticlesData,
+]
+
+const blogArticlesById = new Map<string, BlogArticleSummary>(
+  blogAllArticles.map((article) => [article.id, article] as const)
+)
+
+export function getBlogArticleById(articleId: string) {
+  return blogArticlesById.get(articleId)
+}
+
+export function getBlogArticleHref(articleId: string) {
+  return `${blogRoute}/${articleId}`
+}
+
+export const blogFeaturedArticle: BlogFeaturedArticleData = {
+  authorName: "Dr. Kavinda Perera",
+  category: featuredArticleSummary.category,
+  date: featuredArticleSummary.date,
+  excerpt: featuredArticleSummary.excerpt,
+  featuredBadge: "Featured",
+  id: featuredArticleSummary.id,
+  image: featuredArticleSummary.image,
+  imageAlt: featuredArticleSummary.imageAlt,
+  readLabel: "Read Article",
+  readTime: featuredArticleSummary.readTime,
+  tag: featuredArticleSummary.tag,
+  title: featuredArticleSummary.title,
+}
 
 export const blogEmptyState = {
   actionLabel: "Show All Articles",
@@ -379,8 +533,8 @@ export const blogEmptyState = {
 }
 
 export const blogPaginationLabels = {
-  next: "Next →",
-  previous: "← Previous",
+  next: "Next ->",
+  previous: "<- Previous",
 }
 
 export const blogFooterColumns: BlogFooterColumnData[] = [
@@ -451,24 +605,11 @@ export const blogLandingHeading = {
 
 export const blogReadLabel = "Read"
 
-const blogArticlesById = new Map(
-  blogArticles.map((article) => [article.id, article] as const)
-)
-
-function getBlogArticleById(articleId: string) {
-  return blogArticlesById.get(articleId)
-}
-
-function toLandingTeaser(
-  article: Pick<
-    BlogArticleData,
-    "date" | "excerpt" | "image" | "imageAlt" | "tag" | "tagVariant" | "title"
-  >
-): BlogLandingArticleData {
+function toLandingTeaser(article: BlogArticleSummary): BlogLandingArticleData {
   return {
     date: article.date,
     excerpt: article.excerpt,
-    href: blogRoute,
+    href: getBlogArticleHref(article.id),
     image: article.image,
     imageAlt: article.imageAlt,
     tag: article.tag,
@@ -482,24 +623,15 @@ function toLandingTeaser(
   }
 }
 
-export const blogLandingFeaturedArticle: BlogLandingArticleData = {
-  date: blogFeaturedArticle.date,
-  excerpt: blogFeaturedArticle.excerpt,
-  href: blogRoute,
-  image: blogFeaturedArticle.image,
-  imageAlt: blogFeaturedArticle.imageAlt,
-  tag: blogFeaturedArticle.tag,
-  tagClassName: "bg-secondary text-sage-dark",
-  title: blogFeaturedArticle.title,
-}
+export const blogLandingFeaturedArticle = toLandingTeaser(featuredArticleSummary)
 
 export const blogLandingTeasers: BlogLandingArticleData[] = [
   toLandingTeaser(
-    getBlogArticleById("store-microgreens-freshness") ?? blogArticles[1]
+    getBlogArticleById("chef-approved-pea-shoot-recipes") ??
+      blogAdditionalArticlesData[1]
   ),
   toLandingTeaser(
-    getBlogArticleById("uae-australia-expansion") ?? blogArticles[4]
+    getBlogArticleById("zero-waste-microgreen-farm") ??
+      blogAdditionalArticlesData[2]
   ),
 ]
-
-export { getBlogArticleById }

@@ -7,7 +7,6 @@ import { BlogFooter } from "./blog-footer"
 import { BlogHeader } from "./blog-header"
 import { BlogNav } from "./blog-nav"
 import { BlogPagination } from "./blog-pagination"
-import { blogPlaceholderMessages } from "./content"
 import { useBlogIndex } from "./use-blog-index"
 
 function BlogPage() {
@@ -30,12 +29,6 @@ function BlogPage() {
     })
   }
 
-  function handleArticleSelect(title: string) {
-    toast(blogPlaceholderMessages.articleTitle, {
-      description: `${title}. ${blogPlaceholderMessages.articleDescription}`,
-    })
-  }
-
   return (
     <main className="min-h-screen bg-background">
       <BlogNav onPlaceholderAction={handlePlaceholderAction} />
@@ -49,12 +42,11 @@ function BlogPage() {
         </div>
       </section>
       <div className="pt-8 sm:pt-10">
-        <BlogFeaturedArticle onArticleSelect={handleArticleSelect} />
+        <BlogFeaturedArticle />
       </div>
       <BlogArticleGrid
         articles={paginatedArticles}
         hasResults={hasResults}
-        onArticleSelect={handleArticleSelect}
         onResetCategory={resetCategory}
       />
       <BlogPagination

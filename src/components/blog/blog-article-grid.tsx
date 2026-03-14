@@ -5,14 +5,12 @@ import { BlogEmptyState } from "./blog-empty-state"
 type BlogArticleGridProps = {
   articles: BlogArticleData[]
   hasResults: boolean
-  onArticleSelect: (title: string) => void
   onResetCategory: () => void
 }
 
 function BlogArticleGrid({
   articles,
   hasResults,
-  onArticleSelect,
   onResetCategory,
 }: BlogArticleGridProps) {
   return (
@@ -21,11 +19,7 @@ function BlogArticleGrid({
         {hasResults ? (
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             {articles.map((article) => (
-              <BlogArticleCard
-                key={article.id}
-                article={article}
-                onArticleSelect={onArticleSelect}
-              />
+              <BlogArticleCard key={article.id} article={article} />
             ))}
           </div>
         ) : (

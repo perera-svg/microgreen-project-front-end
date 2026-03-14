@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router"
 import ArrowRightIcon from "lucide-react/dist/esm/icons/arrow-right"
 
 import { BrandBadge } from "@/components/brand/brand-badge"
@@ -7,16 +8,15 @@ import type { BlogArticleData } from "./content"
 
 type BlogArticleCardProps = {
   article: BlogArticleData
-  onArticleSelect: (title: string) => void
 }
 
-function BlogArticleCard({ article, onArticleSelect }: BlogArticleCardProps) {
+function BlogArticleCard({ article }: BlogArticleCardProps) {
   return (
     <BrandCard className="gap-0 overflow-hidden py-0">
-      <button
+      <Link
         className="text-left"
-        type="button"
-        onClick={() => onArticleSelect(article.title)}
+        params={{ articleId: article.id }}
+        to="/blog/$articleId"
       >
         <img
           alt={article.imageAlt}
@@ -46,7 +46,7 @@ function BlogArticleCard({ article, onArticleSelect }: BlogArticleCardProps) {
             </span>
           </div>
         </BrandCardContent>
-      </button>
+      </Link>
     </BrandCard>
   )
 }

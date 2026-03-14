@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router"
 import ArrowRightIcon from "lucide-react/dist/esm/icons/arrow-right"
 
 import {
@@ -9,18 +10,14 @@ import { BrandBadge } from "@/components/brand/brand-badge"
 
 import { blogFeaturedArticle } from "./content"
 
-type BlogFeaturedArticleProps = {
-  onArticleSelect: (title: string) => void
-}
-
-function BlogFeaturedArticle({ onArticleSelect }: BlogFeaturedArticleProps) {
+function BlogFeaturedArticle() {
   return (
     <section className="px-4 sm:px-6 lg:px-8">
       <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-center">
-        <button
+        <Link
           className="overflow-hidden rounded-[16px] text-left"
-          type="button"
-          onClick={() => onArticleSelect(blogFeaturedArticle.title)}
+          params={{ articleId: blogFeaturedArticle.id }}
+          to="/blog/$articleId"
         >
           <img
             alt={blogFeaturedArticle.imageAlt}
@@ -29,7 +26,7 @@ function BlogFeaturedArticle({ onArticleSelect }: BlogFeaturedArticleProps) {
             loading="lazy"
             src={blogFeaturedArticle.image}
           />
-        </button>
+        </Link>
 
         <div className="flex flex-col gap-5">
           <div className="flex flex-wrap items-center gap-2">
@@ -41,15 +38,15 @@ function BlogFeaturedArticle({ onArticleSelect }: BlogFeaturedArticleProps) {
             </BrandBadge>
           </div>
 
-          <button
+          <Link
             className="text-left"
-            type="button"
-            onClick={() => onArticleSelect(blogFeaturedArticle.title)}
+            params={{ articleId: blogFeaturedArticle.id }}
+            to="/blog/$articleId"
           >
             <h2 className="font-serif text-[2rem] leading-tight text-foreground transition-colors hover:text-primary sm:text-[2.2rem]">
               {blogFeaturedArticle.title}
             </h2>
-          </button>
+          </Link>
 
           <p className="text-sm leading-7 text-text-secondary">
             {blogFeaturedArticle.excerpt}
@@ -57,10 +54,12 @@ function BlogFeaturedArticle({ onArticleSelect }: BlogFeaturedArticleProps) {
 
           <div className="flex flex-wrap items-center gap-3 text-[13px] text-text-secondary">
             <BrandAvatar className="size-9">
-              <BrandAvatarImage
-                alt={blogFeaturedArticle.authorAvatarAlt}
-                src={blogFeaturedArticle.authorAvatar}
-              />
+              {blogFeaturedArticle.authorAvatar ? (
+                <BrandAvatarImage
+                  alt={blogFeaturedArticle.authorAvatarAlt ?? blogFeaturedArticle.authorName}
+                  src={blogFeaturedArticle.authorAvatar}
+                />
+              ) : null}
               <BrandAvatarFallback>
                 {blogFeaturedArticle.authorName
                   .split(" ")
@@ -86,14 +85,14 @@ function BlogFeaturedArticle({ onArticleSelect }: BlogFeaturedArticleProps) {
             </span>
           </div>
 
-          <button
+          <Link
             className="inline-flex items-center gap-2 self-start text-sm font-medium text-primary transition-colors hover:text-sage-dark"
-            type="button"
-            onClick={() => onArticleSelect(blogFeaturedArticle.title)}
+            params={{ articleId: blogFeaturedArticle.id }}
+            to="/blog/$articleId"
           >
             {blogFeaturedArticle.readLabel}
             <ArrowRightIcon aria-hidden className="size-4" />
-          </button>
+          </Link>
         </div>
       </div>
     </section>
