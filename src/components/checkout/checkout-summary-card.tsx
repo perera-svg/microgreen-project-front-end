@@ -5,6 +5,7 @@ import {
   BrandCardTitle,
 } from "@/components/brand/brand-card"
 import { BrandSeparator } from "@/components/brand/brand-separator"
+import { cn } from "@/lib/utils"
 
 import type { CartItem } from "@/components/cart/cart-provider"
 
@@ -15,6 +16,7 @@ type CheckoutSummaryCardProps = {
   deliveryFeeLabel: string
   discountLabel: string
   items: CartItem[]
+  sticky?: boolean
   subtotalLabel: string
   totalLabel: string
 }
@@ -23,11 +25,14 @@ function CheckoutSummaryCard({
   deliveryFeeLabel,
   discountLabel,
   items,
+  sticky = true,
   subtotalLabel,
   totalLabel,
 }: CheckoutSummaryCardProps) {
   return (
-    <BrandCard className="gap-0 px-0 py-0 lg:sticky lg:top-6">
+    <BrandCard
+      className={cn("gap-0 px-0 py-0", sticky && "lg:sticky lg:top-6")}
+    >
       <BrandCardHeader className="px-6 pb-0 pt-6">
         <BrandCardTitle className="text-[1.55rem]">
           {checkoutSummary.orderSummaryLabel}

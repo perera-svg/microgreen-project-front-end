@@ -20,7 +20,14 @@ function getStepState(
     return "current"
   }
 
-  if (stepId === "details" && currentStep === "delivery") {
+  if (
+    stepId === "details" &&
+    (currentStep === "delivery" || currentStep === "payment")
+  ) {
+    return "complete"
+  }
+
+  if (stepId === "delivery" && currentStep === "payment") {
     return "complete"
   }
 

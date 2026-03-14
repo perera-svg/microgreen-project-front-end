@@ -5,11 +5,13 @@ import { toast } from "sonner"
 import { useCart } from "@/components/cart/cart-provider"
 
 import { checkoutFieldIds, checkoutToastMessages } from "./content"
+import { CheckoutDeliverySummaryCard } from "./checkout-delivery-summary-card"
 import { CheckoutDeliveryStep } from "./checkout-delivery-step"
 import { CheckoutDetailsStep } from "./checkout-details-step"
 import { CheckoutEmptyState } from "./checkout-empty-state"
 import { CheckoutFooterBar } from "./checkout-footer-bar"
 import { CheckoutNav } from "./checkout-nav"
+import { CheckoutPaymentStep } from "./checkout-payment-step"
 import { CheckoutSummaryCard } from "./checkout-summary-card"
 import { useCheckoutDraft, type CheckoutDraftField } from "./use-checkout-draft"
 
@@ -34,6 +36,7 @@ function CheckoutPage() {
     goToStep,
     submitDelivery,
     submitDetails,
+    submitPayment,
     updateField,
   } = useCheckoutDraft()
 
@@ -54,11 +57,21 @@ function CheckoutPage() {
 
     if (!result.ok) {
       focusCheckoutField(result.firstInvalidField)
+    }
+  }
+
+  function handlePaymentSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+
+    const result = submitPayment()
+
+    if (!result.ok) {
+      focusCheckoutField(result.firstInvalidField)
       return
     }
 
-    toast(checkoutToastMessages.paymentStepTitle, {
-      description: checkoutToastMessages.paymentStepDescription,
+    toast(checkoutToastMessages.orderStepTitle, {
+      description: checkoutToastMessages.orderStepDescription,
     })
   }
 
@@ -77,7 +90,7 @@ function CheckoutPage() {
                   onFieldChange={updateField}
                   onSubmit={handleDetailsSubmit}
                 />
-              ) : (
+              ) : draft.currentStep === "delivery" ? (
                 <CheckoutDeliveryStep
                   draft={draft}
                   errors={errors}
@@ -85,15 +98,37 @@ function CheckoutPage() {
                   onFieldChange={updateField}
                   onSubmit={handleDeliverySubmit}
                 />
+              ) : (
+                <CheckoutPaymentStep
+                  draft={draft}
+                  errors={errors}
+                  onBack={() => goToStep("delivery")}
+                  onFieldChange={updateField}
+                  onSubmit={handlePaymentSubmit}
+                />
               )}
 
-              <CheckoutSummaryCard
-                deliveryFeeLabel={deliveryFeeLabel}
-                discountLabel={discountLabel}
-                items={items}
-                subtotalLabel={subtotalLabel}
-                totalLabel={totalLabel}
-              />
+              {draft.currentStep === "payment" ? (
+                <div className="flex flex-col gap-5 lg:sticky lg:top-6">
+                  <CheckoutDeliverySummaryCard draft={draft} />
+                  <CheckoutSummaryCard
+                    deliveryFeeLabel={deliveryFeeLabel}
+                    discountLabel={discountLabel}
+                    items={items}
+                    sticky={false}
+                    subtotalLabel={subtotalLabel}
+                    totalLabel={totalLabel}
+                  />
+                </div>
+              ) : (
+                <CheckoutSummaryCard
+                  deliveryFeeLabel={deliveryFeeLabel}
+                  discountLabel={discountLabel}
+                  items={items}
+                  subtotalLabel={subtotalLabel}
+                  totalLabel={totalLabel}
+                />
+              )}
             </div>
           </section>
         ) : (
