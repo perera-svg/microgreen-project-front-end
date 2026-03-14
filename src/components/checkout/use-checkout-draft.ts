@@ -432,10 +432,25 @@ function useCheckoutDraft() {
     })
   }
 
+  function resetDraft() {
+    const nextDraft = { ...EMPTY_CHECKOUT_DRAFT }
+
+    setErrors({})
+    setDraft(nextDraft)
+
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(
+        CHECKOUT_DRAFT_STORAGE_KEY,
+        JSON.stringify(nextDraft)
+      )
+    }
+  }
+
   return {
     draft,
     errors,
     goToStep,
+    resetDraft,
     submitDelivery,
     submitDetails,
     submitPayment,

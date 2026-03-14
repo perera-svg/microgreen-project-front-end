@@ -13,6 +13,7 @@ import { Route as SignUpRouteImport } from './routes/sign-up'
 import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as QueryDemoRouteImport } from './routes/query-demo'
+import { Route as OrderConfirmationRouteImport } from './routes/order-confirmation'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as CartRouteImport } from './routes/cart'
 import { Route as IndexRouteImport } from './routes/index'
@@ -37,6 +38,11 @@ const ShopRoute = ShopRouteImport.update({
 const QueryDemoRoute = QueryDemoRouteImport.update({
   id: '/query-demo',
   path: '/query-demo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrderConfirmationRoute = OrderConfirmationRouteImport.update({
+  id: '/order-confirmation',
+  path: '/order-confirmation',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CheckoutRoute = CheckoutRouteImport.update({
@@ -69,6 +75,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
+  '/order-confirmation': typeof OrderConfirmationRoute
   '/query-demo': typeof QueryDemoRoute
   '/shop': typeof ShopRouteWithChildren
   '/sign-in': typeof SignInRoute
@@ -80,6 +87,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
+  '/order-confirmation': typeof OrderConfirmationRoute
   '/query-demo': typeof QueryDemoRoute
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
@@ -91,6 +99,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
+  '/order-confirmation': typeof OrderConfirmationRoute
   '/query-demo': typeof QueryDemoRoute
   '/shop': typeof ShopRouteWithChildren
   '/sign-in': typeof SignInRoute
@@ -104,6 +113,7 @@ export interface FileRouteTypes {
     | '/'
     | '/cart'
     | '/checkout'
+    | '/order-confirmation'
     | '/query-demo'
     | '/shop'
     | '/sign-in'
@@ -115,6 +125,7 @@ export interface FileRouteTypes {
     | '/'
     | '/cart'
     | '/checkout'
+    | '/order-confirmation'
     | '/query-demo'
     | '/sign-in'
     | '/sign-up'
@@ -125,6 +136,7 @@ export interface FileRouteTypes {
     | '/'
     | '/cart'
     | '/checkout'
+    | '/order-confirmation'
     | '/query-demo'
     | '/shop'
     | '/sign-in'
@@ -137,6 +149,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CartRoute: typeof CartRoute
   CheckoutRoute: typeof CheckoutRoute
+  OrderConfirmationRoute: typeof OrderConfirmationRoute
   QueryDemoRoute: typeof QueryDemoRoute
   ShopRoute: typeof ShopRouteWithChildren
   SignInRoute: typeof SignInRoute
@@ -171,6 +184,13 @@ declare module '@tanstack/react-router' {
       path: '/query-demo'
       fullPath: '/query-demo'
       preLoaderRoute: typeof QueryDemoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/order-confirmation': {
+      id: '/order-confirmation'
+      path: '/order-confirmation'
+      fullPath: '/order-confirmation'
+      preLoaderRoute: typeof OrderConfirmationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/checkout': {
@@ -227,6 +247,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CartRoute: CartRoute,
   CheckoutRoute: CheckoutRoute,
+  OrderConfirmationRoute: OrderConfirmationRoute,
   QueryDemoRoute: QueryDemoRoute,
   ShopRoute: ShopRouteWithChildren,
   SignInRoute: SignInRoute,

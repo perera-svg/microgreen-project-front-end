@@ -1,10 +1,14 @@
 import type { FormEvent } from "react"
 
-import { toast } from "sonner"
+import { useNavigate } from "@tanstack/react-router"
 
 import { useCart } from "@/components/cart/cart-provider"
+import {
+  buildOrderConfirmationSnapshot,
+  writeStoredOrderConfirmationSnapshot,
+} from "@/components/order-confirmation/order-confirmation-snapshot"
 
-import { checkoutFieldIds, checkoutToastMessages } from "./content"
+import { checkoutFieldIds } from "./content"
 import { CheckoutDeliverySummaryCard } from "./checkout-delivery-summary-card"
 import { CheckoutDeliveryStep } from "./checkout-delivery-step"
 import { CheckoutDetailsStep } from "./checkout-details-step"
@@ -23,6 +27,7 @@ function focusCheckoutField(field: CheckoutDraftField) {
 
 function CheckoutPage() {
   const {
+    clearCart,
     deliveryFeeLabel,
     discountLabel,
     hasItems,
@@ -30,10 +35,12 @@ function CheckoutPage() {
     subtotalLabel,
     totalLabel,
   } = useCart()
+  const navigate = useNavigate()
   const {
     draft,
     errors,
     goToStep,
+    resetDraft,
     submitDelivery,
     submitDetails,
     submitPayment,
@@ -70,9 +77,19 @@ function CheckoutPage() {
       return
     }
 
-    toast(checkoutToastMessages.orderStepTitle, {
-      description: checkoutToastMessages.orderStepDescription,
-    })
+    writeStoredOrderConfirmationSnapshot(
+      buildOrderConfirmationSnapshot({
+        deliveryFeeLabel,
+        discountLabel,
+        draft,
+        items,
+        subtotalLabel,
+        totalLabel,
+      })
+    )
+    clearCart()
+    resetDraft()
+    void navigate({ to: "/order-confirmation" })
   }
 
   return (
